@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1571958141 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h"
+
+1571960291 c:\users\usuario\documents\new everything\programacion 2 new\galaxy\usuarios.h
+
+1562120084 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1571958078 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\usuarios.c
+	<stdio.h>
+	<stdlib.h>
+	"usuarios.h"
+
+1571960771 c:\users\usuario\documents\new everything\programacion 2 new\galaxy\listas.h
+	"usuarios.h"
+
+1571960771 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
