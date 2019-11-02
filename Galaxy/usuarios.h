@@ -10,12 +10,23 @@ typedef struct
     char Contra[30];
 }Usuario;
 
+typedef struct
+{
+    int idUsuario;
+    int tipo; // 1 o 0 si es admin o no
+    char nombreUsuario[30];
+    char pass[20];
+    int anioNacimiento;
+    char genero; 
+    char pais[20];
+    int activo;   // 1 o 0 si esta activo
+} stUsuario;
 
 ///Crea usuarios en loop
 void cargaArchivoUsuarios();
 
 ///Crear un usuario
-Usuario crearUnUsuario();
+stUsuario crearUnUsuario();
 
 ///Crear un usuario en archivo
 void crearUnUsuarioEnArchivo();

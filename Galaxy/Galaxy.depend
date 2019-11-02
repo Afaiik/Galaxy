@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1571958141 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\main.c
+1571962587 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Listas.h"
@@ -16,7 +16,7 @@
 	<stdlib.h>
 	"usuarios.h"
 
-1571960771 c:\users\usuario\documents\new everything\programacion 2 new\galaxy\listas.h
+1571960841 c:\users\usuario\documents\new everything\programacion 2 new\galaxy\listas.h
 	"usuarios.h"
 
 1571960771 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\listas.c

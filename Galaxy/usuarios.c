@@ -6,18 +6,23 @@
 
 #define ESC 27
 
-#define CODADMIN 123
+#define CODADMIN 'canibeadmin'
 #define TIPOADMIN 1
 #define TIPONORMAL 0
 
 void cargaArchivoUsuarios(){
 
-    Usuario usua;
-    int codAdmin;
+}
+
+stUsuario crearUnUsuario()
+{
+    stUsuario newuser;
+    char codAdmin[20];
     int valido = 0;
+
     char nombreAux[30];
-    usua.Activo = 1;
-    usua.Id = getUltimoIdUsuario(archivoUsuarios)+1;
+    newuser.activo = 1;
+    newuser.idUsuario = getUltimoIdUsuario(archivoUsuarios)+1;
     system("cls");
 
     while(valido == 0)
@@ -25,11 +30,15 @@ void cargaArchivoUsuarios(){
         printf("\n\t\t<<<<<<<<<< CREACION DE USUARIO >>>>>>>>>>");
         printf("\nNombre de Usuario..............:");
         fflush(stdin);
-        scanf("%s", &nombreAux);
+        gets(nombreAux);
+        int anioNacimiento;
+        char genero; 
+        char pais[20];
+
         if(checkExisteUsuarioNombre(nombreAux,archivoUsuarios) == 0)
         {
             valido = 1;
-            strcpy(usua.Nombre, nombreAux);
+            strcpy(newuser.nombreUsuario, nombreAux);
         }else
         {
             system("cls");
@@ -44,65 +53,35 @@ void cargaArchivoUsuarios(){
     }
     printf("\nPassword.....................:");
     fflush(stdin);
-    gets(usua.Contra);
+    gets(newuser.pass);
 
-    printf("\nSi posee codigo de Administrador, Ingreselo..:");
-    scanf("%d", &codAdmin);
-    if(codAdmin == CODADMIN)
-        usua.Tipo = TIPOADMIN;
-    else///TIPO DE USUARIO 1 ADMIN 0 USUARIO REGULAR
-        usua.Tipo = TIPONORMAL;
-
-    guardarUsuario(usua);
-
-}
-
-Usuario crearUnUsuario()
-{
-    Usuario usua;
-    int codAdmin;
+    char tieneCod = 0;
     int valido = 0;
-    char nombreAux[30];
-    int checkExist = 2;
-    usua.Activo = 1;
-    usua.Id = getUltimoIdUsuario(archivoUsuarios)+1;
-    system("cls");
-
-    while(valido == 0)
-    {
-        //color(10);
-        printf("\n\t\t<<<<<<<<<< CREACION DE USUARIO >>>>>>>>>>");
-        printf("\nNombre de Usuario..............:");
+    
+    while(valido != 1){
+        printf("\nPosee codigo de administrador ? S/N");
         fflush(stdin);
-        scanf("%s", &nombreAux);
-        checkExist = checkExisteUsuarioNombre(nombreAux, archivoUsuarios);
-        if((checkExisteUsuarioNombre(nombreAux, archivoUsuarios) == 0) || (checkExisteUsuarioNombre(nombreAux, archivoUsuarios) == -1))
-        {
-            valido = 1;
-            strcpy(usua.Nombre, nombreAux);
+        scanf("%c", &tieneCod);
+        if(tolower(tieneCod) != 's' || tolower(tieneCod) != 'n'){
+            puts("\nOPCION INCORRECTA");
         }else
         {
-            system("cls");
-            printf("\a");
-            gotoxy(15,5);
-            printf("Ese usuario ya se encuentra en uso!");
-            getch();
-            gotoxy(0,0);
-            system("cls");
+            valido = 1;
         }
     }
-    printf("\nPassword.....................:");
-    fflush(stdin);
-    gets(usua.Contra);
 
-    printf("\nSi posee codigo de Administrador, Ingreselo..:");
-    scanf("%d", &codAdmin);
-    if(codAdmin == CODADMIN)
-        usua.Tipo = TIPOADMIN;
-    else///TIPO DE USUARIO 1 ADMIN 0 USUARIO REGULAR
-        usua.Tipo = TIPONORMAL;
+    if(tolower(tieneCod) == 's'){
+        scanf("%d", &codAdmin);
 
-    return usua;
+        if(strcmp(codAdmin, CODADMIN) == 0)
+            newuser.tipo = TIPOADMIN;
+        else///TIPO DE USUARIO 1 ADMIN 0 USUARIO REGULAR
+            newuser.tipo = TIPONORMAL;
+
+        guardarUsuario(newuser);
+    }
+
+    return newuser;
 }
 
 void crearUnUsuarioEnArchivo()
