@@ -1,0 +1,66 @@
+# depslib dependency file v1.0
+1571962587 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h"
+
+1571960291 c:\users\usuario\documents\new everything\programacion 2 new\galaxy\usuarios.h
+
+1562120084 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1571958078 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\usuarios.c
+	<stdio.h>
+	<stdlib.h>
+	"usuarios.h"
+
+1571960841 c:\users\usuario\documents\new everything\programacion 2 new\galaxy\listas.h
+	"usuarios.h"
+
+1571960771 source:c:\users\usuario\documents\new everything\programacion 2 new\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
+1572709922 source:c:\users\usuario\downloads\galaxy-master\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1572709922 source:c:\users\usuario\downloads\galaxy-master\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
+1572709922 source:c:\users\usuario\downloads\galaxy-master\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h"
+
+1572709922 c:\users\usuario\downloads\galaxy-master\galaxy\listas.h
+	"usuarios.h"
+
+1573086028 c:\users\usuario\downloads\galaxy-master\galaxy\usuarios.h
+
+1572709922 source:e:\galaxy\0.02\galaxy-master\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1572709922 source:e:\galaxy\0.02\galaxy-master\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h"
+
+1573094146 e:\galaxy\0.02\galaxy-master\galaxy\listas.h
+	"usuarios.h"
+
+1573094236 e:\galaxy\0.02\galaxy-master\galaxy\usuarios.h
+
+1573094206 source:e:\galaxy\0.02\galaxy-master\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
