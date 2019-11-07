@@ -5,68 +5,58 @@
 #define ESC 27
 
 //Funciones de stNodo
-stNodo * InicLista()
+stNodoUsuario * inicLista()
 {
     return NULL;
 }
 
 
-stNodo * CrearNodo(Usuario usuario)
+stNodoUsuario * crearNodo(stUsuario newuser)
 {
-    stNodo * aux = (stNodo*) malloc(sizeof(stNodo));
-    aux->dato = usuario;
-    aux->Siguiente = NULL;
+    stNodoUsuario * aux =(stNodoUsuario*)malloc(sizeof(stNodoUsuario));
+    aux->user = newuser;
+    aux->sig = NULL;
 
     return aux;
 }
 
-stNodo * AgregarPpio(stNodo * lista, stNodo * nuevoNodo)
+stNodoUsuario * agregarPrincipio(stNodoUsuario * lista, stNodoUsuario * newnodo)
 {
+    newnodo->sig = lista;
+    lista = newnodo;
 
-    if(lista == NULL)
-    {
-        lista = nuevoNodo;
-    }
-    else
-    {
-        nuevoNodo->Siguiente = lista;
-        lista = nuevoNodo;
+    return lista;
+}
+
+stNodoUsuario * agregarFinal(stNodoUsuario * lista, stNodoUsuario * newnodo)
+{
+    if(!lista){
+        lista = newnodo;
+    }else{
+        stNodoUsuario * ultimo = buscarUltimo(lista);
+        ultimo->sig = newnodo;
     }
     return lista;
 }
 
-stNodo * AgregarFinal(stNodo * lista, stNodo * nuevoNodo)
+stNodoUsuario * buscarUltimo(stNodoUsuario * lista)
 {
-    if(lista == NULL)
-    {
-        lista = nuevoNodo;
-    }
-    else
-    {
-        stNodo * ultimo = BuscarUltimo(lista);
-        ultimo->Siguiente = nuevoNodo;
-    }
-    return lista;
-}
-
-stNodo * BuscarUltimo(stNodo * lista)
-{
-    stNodo * seg = lista;
-    if(seg != NULL)
-        while(seg->Siguiente != NULL)
+    stNodoUsuario * seg = lista;
+    if(seg)
+        while(seg->sig)
         {
-            seg = seg->Siguiente;
+            seg = seg->sig;
         }
     return seg;
 }
 
-stNodo * BorrarTodaLaLista(stNodo * lista)
+stNodoUsuario * borrarTodaLaLista(stNodoUsuario * lista)
 {
-    stNodo * proximo;
-    stNodo * seg = lista;
-    while(seg != NULL)
+    stNodoUsuario * proximo;
+    stNodoUsuario * seg = lista;
+    while(seg)
     {
-        proximo = seg->Siguiente;
+        proximo = seg->sig;
         free(seg);
         seg = proximo;
     }
@@ -74,33 +64,33 @@ stNodo * BorrarTodaLaLista(stNodo * lista)
 }
 
 
-void MostrarUnNodo(stNodo * nodo)
+void mostrarUnNodo(stNodoUsuario * nodo)
 {
-    mostrarUnUsuario(nodo ->dato);
-    printf("\nSiguiente.....: %p", nodo->Siguiente);
+    mostrarUnUsuario(nodo->user);
+    //printf("\nSiguiente.....: %p", nodo->sig);
 }
 
 
-void MostrarListaCompleta(stNodo * lista)
+void mostrarListaCompleta(stNodoUsuario * lista)
 {
-    stNodo * seg = lista;
-    while(seg != NULL)
+    stNodoUsuario * seg = lista;
+    while(seg)
     {
-        MostrarUnNodo(seg);
-        seg = seg->Siguiente;
+        mostrarUnNodo(seg);
+        seg = seg->sig;
     }
 }
 
-stNodo * CargarLista(stNodo * lista)
+stNodoUsuario * cargarLista(stNodoUsuario * lista)
 {
     int opcion = 0;
-    stNodo * nuevo;
-    Usuario persona;
+    stNodoUsuario * newnodo;
+    stUsuario newuser;
     while(opcion != ESC)
     {
-        persona = crearUnUsuario();
-        nuevo = CrearNodo(persona);
-        lista = AgregarPpio(lista, nuevo);
+        newuser = crearUnUsuario();
+        newnodo = crearNodo(newuser);
+        lista = agregarPrincipio(lista, newnodo);
         printf("\n\t\tESC PARA SALIR");
         opcion = getch();
         system("cls");
@@ -108,16 +98,16 @@ stNodo * CargarLista(stNodo * lista)
     return lista;
 }
 
-stNodo * CargarListaEnOrdenNombre(stNodo * lista)
+stNodoUsuario * cargarListaEnOrdenNombre(stNodoUsuario * lista)
 {
     int opcion = 0;
-    stNodo * nuevo;
-    Usuario persona;
+    stNodoUsuario * newnodo;
+    stUsuario newuser;
     while(opcion != ESC)
     {
-        persona = crearUnUsuario();
-        nuevo = CrearNodo(persona);
-        lista = AgregarEnOrdenByNombre(lista, nuevo);
+        newuser = crearUnUsuario();
+        newnodo = CrearNodo(newuser);
+        lista = agregarEnOrdenByNombre(lista, newnodo);
         printf("\n\t\tESC PARA SALIR");
         opcion = getch();
         system("cls");
@@ -126,15 +116,15 @@ stNodo * CargarListaEnOrdenNombre(stNodo * lista)
 }
 
 
-stNodo * ExtraerNodo(stNodo ** lista)
+stNodoUsuario * extraerNodo(stNodoUsuario ** lista)
 {
-    stNodo * primero = NULL;
+    stNodoUsuario * primero = NULL;
 
-    if ( (*lista) != NULL)
+    if ((*lista))
     {
         primero = (*lista);
-        (*lista) = primero->Siguiente;
-        primero->Siguiente = NULL;
+        (*lista) = primero->sig;
+        primero->sig = NULL;
     }
     return primero;
 }
@@ -142,29 +132,29 @@ stNodo * ExtraerNodo(stNodo ** lista)
 
 //FUNCIONES QUE TRABAJAN CON LA ESTRUCTURA PERSONA
 
-stNodo * AgregarEnOrdenByNombre(stNodo * lista, stNodo * nuevoNodo)
+stNodoUsuario * agregarEnOrdenByNombre(stNodoUsuario * lista, stNodoUsuario * newnodo)
 {
-    if(lista == NULL)
+    if(lista)
     {
-        lista = nuevoNodo;
+        lista = newnodo;
     }
     else
     {
-        if(strcmp(tolower(nuevoNodo->dato.Nombre),tolower(lista->dato.Nombre))<0)
+        if(strcmpi(newnodo->user.nombreUsuario,lista->user.nombreUsuario)<0)
         {
-            lista = AgregarPpio(lista, nuevoNodo);
+            lista = agregarPrincipio(lista, newnodo);
         }
         else
         {
-            stNodo * ante = lista;
-            stNodo * seg = lista->Siguiente;
-            while((seg != NULL) && (strcmp(tolower(nuevoNodo->dato.Nombre),tolower(seg->dato.Nombre))>0))
+            stNodoUsuario * ante = lista;
+            stNodoUsuario * seg = lista->sig;
+            while((seg) && (strcmpi(newnodo->user.nombreUsuario,seg->user.nombreUsuario)>0))
             {
                 ante = seg;
-                seg = seg->Siguiente;
+                seg = seg->sig;
             }
-            nuevoNodo->Siguiente = seg;
-            ante->Siguiente = nuevoNodo;
+            newnodo->sig = seg;
+            ante->sig = newnodo;
         }
     }
     return lista;
@@ -252,4 +242,8 @@ stNodo * BorrarNodoByEdad(int edad, stNodo * lista)
 
     return lista;
 }*/
+
+///Sección de funciones de listas para el TPF.
+
+
 

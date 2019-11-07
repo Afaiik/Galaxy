@@ -5,37 +5,37 @@
 #include "usuarios.h"
 
 typedef struct {
-    Usuario dato;
-    struct stNodo * Siguiente;
-} stNodo;
+    stUsuario user;
+    struct stNodoUsuario * sig;
+}stNodoUsuario; /// Para la lista de usuarios.
 
 // FUNCIONES BASICAS / GENERICAS
-stNodo * InicLista();
-stNodo * CrearNodo (Usuario Usuario);
+stNodoUsuario * inicLista();
+stNodoUsuario * crearNodo (stUsuario newuser);
 
-stNodo * AgregarPpio (stNodo * lista, stNodo * nuevoNodo);
-stNodo * AgregarFinal(stNodo * lista, stNodo * nuevoNodo);
+stNodoUsuario * agregarPrincipio (stNodoUsuario * lista, stNodoUsuario * newnodo);
+stNodoUsuario * agregarFinal(stNodoUsuario * lista, stNodoUsuario * newnodo);
 
-stNodo * BuscarUltimo(stNodo * lista);
-stNodo * BorrarTodaLaLista(stNodo * lista);
+stNodoUsuario * buscarUltimo(stNodoUsuario * lista);
+stNodoUsuario * borrarTodaLaLista(stNodoUsuario * lista);
 
-stNodo * EliminarPrimero(stNodo * lista);
+stNodoUsuario * eliminarPrimero(stNodoUsuario * lista);
 
 //eliminar ultimo
-stNodo * CargarLista(stNodo * lista);
-stNodo * CargarListaEnOrdenNombre(stNodo * lista);
-//stNodo * CargarListaEnOrdenEdad(stNodo * lista);
+stNodoUsuario * cargarLista(stNodoUsuario * lista);
+stNodoUsuario * cargarListaEnOrdenNombre(stNodoUsuario * lista);
+//stNodo * cargarListaEnOrdenEdad(stNodo * lista);
 
-void MostrarUnNodo(stNodo * nodo);
-void MostrarListaCompleta(stNodo * nodo);
+void mostrarUnNodo(stNodoUsuario * nodo);
+void mostrarListaCompleta(stNodoUsuario * nodo);
 
 //extraer primero Complejidad, devolver puntero al nodo extraido
 //y desde la funcion con puntero doble modificar el otro
 
-stNodo * ExtraerNodo(stNodo ** lista);
+stNodoUsuario * extraerNodo(stNodoUsuario ** lista);
 
 //FUNCIONES QUE TRABAJAN CON LA ESTRUCTURA Usuario
-stNodo * AgregarEnOrdenByNombre(stNodo * lista, stNodo * nuevoNodo);
+stNodoUsuario * agregarEnOrdenByNombre(stNodoUsuario * lista, stNodoUsuario * newnodo);
 
 //stNodo * BorrarNodoByNombre(char nombre[20], stNodo * lista);
 //stNodo * BorrarNodoByEdad(int edad, stNodo * lista);

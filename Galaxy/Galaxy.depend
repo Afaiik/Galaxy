@@ -24,3 +24,43 @@
 	<stdlib.h>
 	"Listas.h "
 
+1572709922 source:c:\users\usuario\downloads\galaxy-master\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1572709922 source:c:\users\usuario\downloads\galaxy-master\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
+1572709922 source:c:\users\usuario\downloads\galaxy-master\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h"
+
+1572709922 c:\users\usuario\downloads\galaxy-master\galaxy\listas.h
+	"usuarios.h"
+
+1573086028 c:\users\usuario\downloads\galaxy-master\galaxy\usuarios.h
+
+1572709922 source:e:\galaxy\0.02\galaxy-master\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1572709922 source:e:\galaxy\0.02\galaxy-master\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h"
+
+1573094146 e:\galaxy\0.02\galaxy-master\galaxy\listas.h
+	"usuarios.h"
+
+1573094236 e:\galaxy\0.02\galaxy-master\galaxy\usuarios.h
+
+1573094206 source:e:\galaxy\0.02\galaxy-master\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
