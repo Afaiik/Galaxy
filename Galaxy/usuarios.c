@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "usuarios.h"
 
-#define archivoUsuarios "arUsuarios.dat"
+#define arUsuarios "usuarios.dat"
 
 #define ESC 27
 

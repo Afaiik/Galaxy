@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "Listas.h "
 
-#define arUsuarios "usuarios.dat" /// OJO QUE DEFINI EL ARCHIVO EN LISTAS.C
-
 #define ESC 27
 
 //Funciones de nodoUsuario
@@ -205,13 +203,12 @@ void mostrarListaLog(stNodoLog * lista){ /// RECURSIVA.
     }
 }
 
-
 ///Sección de funciones de arreglo de listas para el TPF.
 
 int buscarPosUsuario(stCelda adl[], int validos, int idBuscado){ /// Retorna la posicion del usuario buscandolo mediante su ID.
     int pos = -1;
     int i = 0;
-    while((i<validos) && (pos==-1)){
+    while((i < validos) && (pos == -1)){
         if(adl[i].user.idUsuario == idBuscado){
             pos = i;
         }
@@ -220,7 +217,7 @@ int buscarPosUsuario(stCelda adl[], int validos, int idBuscado){ /// Retorna la 
     return pos;
 }
 
-int agregarCelda(stCelda adl[],int validos,stUsuario newuser){ /// Agrega
+int agregarCeldaVacia(stCelda adl[],int validos,stUsuario newuser){ /// Agrega una celda al ADL. La inicializa en vacio para luego llenar los datos de la lista con los registros del archivo log.
     adl[validos].user = newuser;
     adl[validos].listaDeLog = inicLista();
     validos++;
@@ -230,26 +227,41 @@ int agregarCelda(stCelda adl[],int validos,stUsuario newuser){ /// Agrega
 
 int cargarAdl(stCelda adl[], int validos,stUsuario newuser){
     int pos = buscarPosUsuario(adl,validos,newuser.idUsuario);
-    if(pos==-1){
-        validos = agregarCelda(adl,validos,newuser);
+    if(pos == -1){
+        validos = agregarCeldaVacia(adl,validos,newuser);
         pos = validos-1;
     }
-    adl[validos].listaDeLog = inicLista();
     return validos;
 }
 
-int archivo2adl(stCelda adl[],int validos, int dim){
+stNodoLog * cargaListaEnAdl(){
+}
+
+int usuarios2arreglo(stCelda adl[],int validos, int dim){
     FILE * pArchi = fopen(arUsuarios,"rb");
     int i = 0;
     if(pArchi){
         stUsuario newuser;
         while((fread(&newuser,sizeof(stUsuario),1,pArchi)>0) &&(validos<dim)){
-
-            validos = cargarAdl(adl,validos,newuser);
+            validos = cargarArreglo(adl,validos,newuser);
         }
         fclose(pArchi);
     }
 
     return validos;
+}
+
+stNodoLog * logeos2listaEnAdl(stNodoLog * lista){
+    FILE * pArchiLog = fopen(arLogs,"rb");
+    if(pArchiLog){
+        stLog newlog;
+        stNodoLog * newnodo;
+        while(fread(&newlog,sizeof(stLog),1,pArchi)>0){
+            newnodo = crearNodoLog(newlog);
+            lista = agregarPrincipioLog(lista,newnodo);
+        }
+        fclose(pArchi);
+    }
+    return lista;
 }
 

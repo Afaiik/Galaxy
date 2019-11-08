@@ -42,4 +42,15 @@ stNodoLog * buscarUltimoLog(stNodoLog * lista);
 void mostrarNodoLog(stNodoLog * nodo);
 void mostrarListaLog(stNodoLog * lista);
 
+///Sección de funciones de arreglo de listas para el TPF.
+
+int buscarPosUsuario(stCelda adl[], int validos, int idBuscado);
+int agregarCeldaVacia(stCelda adl[],int validos,stUsuario newuser);
+int cargarAdl(stCelda adl[], int validos,stUsuario newuser);
+stNodoLog * cargaListaEnAdl();
+int usuarios2arreglo(stCelda adl[],int validos, int dim);
+stNodoLog * logeos2listaEnAdl(stNodoLog * lista);
+
+
+
 #endif // LISTAS_H_INCLUDED
