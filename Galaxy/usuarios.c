@@ -56,12 +56,10 @@ stUsuario crearUnUsuario() /// Adaptada.
     printf("\nPassword.....................:");
     fflush(stdin);
     gets(newuser.pass);
-    //printf("\nIngrese su fecha de nacimiento (Formato: AAAA/MM/DD");
-    //scanf("%d")
     printf("\nGenero(M/F).................:");
     fflush(stdin);
     scanf("%c",&genAux);
-    while(tolower(genAux) != 's' || tolower(genAux) != 'm'){
+    while(tolower(genAux) != 'f' || tolower(genAux) != 'm'){
         printf("\nOPCION INCORRECTA, INGRESE UNA VALIDA (M/F)");
         fflush(stdin);
         scanf("%c",&genAux);
@@ -122,7 +120,6 @@ void mostrarUnUsuario(stUsuario newuser)
         printf("\n Tipo: %d", newuser.tipo);
         printf("\n Nombre: %s", newuser.nombreUsuario);
         printf("\n Password: %s", newuser.pass);
-        //printf("\n Año: ",newuser.anioNacimiento);
         if(tolower(newuser.genero) == 'm'){
             printf("\nGenero: Masculino");
         }else{
@@ -148,9 +145,9 @@ void mostrarArchivoUsuarios(char arUsuarios[])
     archi = fopen(arUsuarios, "rb");
     stUsuario usuaAux;
 
-    if(archi != NULL)
+    if(archi)
     {
-        while(fread(&usuaAux, sizeof(Usuario),1,archi)>0)
+        while(fread(&usuaAux, sizeof(stUsuario),1,archi)>0)
         {
             if(usuaAux.activo == 1)
             {
@@ -449,7 +446,7 @@ void eliminacionDeUsuario(Usuario usuaLogueado)
     usua = getUsuarioByNombre(nombreUsua, archivoUsuarios);
 
     printf("\n\n\t\tESTA SEGURO DE ELIMINAR EL SIGUIENTE USUARIO ?? S/N \n");
-    mostrarUnUsuario(usua);
+//    mostrarUnUsuario(usua);
     fflush(stdin);
     scanf("%c", &opcion);
     if((opcion == 'S') || (opcion == 's'))
@@ -484,7 +481,8 @@ void eliminacionDeUsuario(Usuario usuaLogueado)
 
 }
 
-
-stNodoUsuario user2lista(stUsuario newuser){
-    stNodoUsuario * newnodo = CrearNodo()
+void mostrarLog(stLog logMostrado){
+    printf("\nID USUARIO: %d",logMostrado.idUsuario);
+    printf("\nID LOG: %d",logMostrado.idLog);
+    printf("\nSCORE: %d",logMostrado.puntaje);
 }

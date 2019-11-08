@@ -4,43 +4,42 @@
 
 #include "usuarios.h"
 
-typedef struct {
+typedef struct{
     stUsuario user;
     struct stNodoUsuario * sig;
 }stNodoUsuario; /// Para la lista de usuarios.
 
-// FUNCIONES BASICAS / GENERICAS
+typedef struct{
+    stLog dato;
+    struct stNodoLog * sig;
+}stNodoLog;
+
+typedef struct{
+    stUsuario user;
+    stNodoLog * listaDeLog;
+}stCelda;
+
+// FUNCIONES LISTA USUARIO.
 stNodoUsuario * inicLista();
 stNodoUsuario * crearNodo (stUsuario newuser);
-
 stNodoUsuario * agregarPrincipio (stNodoUsuario * lista, stNodoUsuario * newnodo);
 stNodoUsuario * agregarFinal(stNodoUsuario * lista, stNodoUsuario * newnodo);
-
 stNodoUsuario * buscarUltimo(stNodoUsuario * lista);
 stNodoUsuario * borrarTodaLaLista(stNodoUsuario * lista);
-
 stNodoUsuario * eliminarPrimero(stNodoUsuario * lista);
-
-//eliminar ultimo
 stNodoUsuario * cargarLista(stNodoUsuario * lista);
 stNodoUsuario * cargarListaEnOrdenNombre(stNodoUsuario * lista);
-//stNodo * cargarListaEnOrdenEdad(stNodo * lista);
-
 void mostrarUnNodo(stNodoUsuario * nodo);
 void mostrarListaCompleta(stNodoUsuario * nodo);
-
-//extraer primero Complejidad, devolver puntero al nodo extraido
-//y desde la funcion con puntero doble modificar el otro
-
 stNodoUsuario * extraerNodo(stNodoUsuario ** lista);
-
-//FUNCIONES QUE TRABAJAN CON LA ESTRUCTURA Usuario
 stNodoUsuario * agregarEnOrdenByNombre(stNodoUsuario * lista, stNodoUsuario * newnodo);
 
-//stNodo * BorrarNodoByNombre(char nombre[20], stNodo * lista);
-//stNodo * BorrarNodoByEdad(int edad, stNodo * lista);
-
-//stNodo * BuscarNodoByNombre(char nombre[20], stNodo * lista);
-//stNodo * BuscarNodoByEdad(int edad, stNodo * lista);
+// FUNCIONES LISTA LOG.
+stNodoLog * crearNodoLog(stLog newlog);
+stNodoLog * agregarPrincipioLog(stNodoLog * lista, stNodoLog * newnodo);
+stNodoLog * agregarFinalLog(stNodoLog * lista, stNodoLog * newnodo);
+stNodoLog * buscarUltimoLog(stNodoLog * lista);
+void mostrarNodoLog(stNodoLog * nodo);
+void mostrarListaLog(stNodoLog * lista);
 
 #endif // LISTAS_H_INCLUDED

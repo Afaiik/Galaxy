@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include "Listas.h "
 
+#define arUsuarios "usuarios.dat" /// OJO QUE DEFINI EL ARCHIVO EN LISTAS.C
+
 #define ESC 27
 
-//Funciones de stNodo
+//Funciones de nodoUsuario
 stNodoUsuario * inicLista()
 {
     return NULL;
 }
-
 
 stNodoUsuario * crearNodo(stUsuario newuser)
 {
@@ -106,7 +107,7 @@ stNodoUsuario * cargarListaEnOrdenNombre(stNodoUsuario * lista)
     while(opcion != ESC)
     {
         newuser = crearUnUsuario();
-        newnodo = CrearNodo(newuser);
+        newnodo = crearNodo(newuser);
         lista = agregarEnOrdenByNombre(lista, newnodo);
         printf("\n\t\tESC PARA SALIR");
         opcion = getch();
@@ -129,8 +130,6 @@ stNodoUsuario * extraerNodo(stNodoUsuario ** lista)
     return primero;
 }
 
-
-//FUNCIONES QUE TRABAJAN CON LA ESTRUCTURA PERSONA
 
 stNodoUsuario * agregarEnOrdenByNombre(stNodoUsuario * lista, stNodoUsuario * newnodo)
 {
@@ -160,90 +159,97 @@ stNodoUsuario * agregarEnOrdenByNombre(stNodoUsuario * lista, stNodoUsuario * ne
     return lista;
 }
 
-/*
-stNodo * BuscarNodoByNombre(char nombre[20], stNodo * lista)   ///Ex BuscarNodo
-{
-    stNodo * seg = lista;
-    while ((seg != NULL) && (strcmp(tolower(nombre), tolower(seg->Usuario.Nombre))!=0 ))
-    {
-        seg=seg->Siguiente;
-    }
-    return seg;
+//Funciones de nodoLog
+
+stNodoLog * crearNodoLog(stLog newlog){
+    stNodoLog * newnodo = (stNodoLog*)malloc(sizeof(stNodoLog));
+    newnodo->dato = newlog;
+    newnodo->sig = NULL;
+
+    return newnodo;
 }
 
-stNodo * BuscarNodoByEdad(int edad, stNodo * lista)
-{
-    stNodo * seg = lista;
-    while ((seg != NULL) && (edad != seg->Usuario.Edad))
-    {
-        seg=seg->Siguiente;
-    }
-    return seg;
+stNodoLog * agregarPrincipioLog(stNodoLog * lista, stNodoLog * newnodo){
+
+    lista->sig = newnodo;
+    newnodo = lista;
+
+    return lista;
+
 }
 
-stNodo * BorrarNodoByNombre(char nombre[20], stNodo * lista)
-{
-    stNodo * seg;
-    stNodo * ante;
-    if(lista != NULL)
-    {
-        if((strcmp(tolower(nombre), tolower(lista->Usuario.Nombre))==0 ))
-        {
-            stNodo * aux = lista;
-            lista = lista->Siguiente;
-            free(aux);
-        }
-        else
-        {
-            seg = lista;
-            while((seg != NULL) && (strcmp(tolower(nombre), tolower(seg->Usuario.Nombre))!=0 ))
-            {
-                ante = seg;
-                seg = seg->Siguiente;
-            }
-            if(seg!=NULL)
-            {
-                ante->Siguiente = seg->Siguiente;
-                free(seg);
-            }
-        }
-
+stNodoLog * agregarFinalLog(stNodoLog * lista, stNodoLog * newnodo){
+    if(!lista){
+        lista == newnodo;
+    }else{
+        stNodoLog * ultimo = buscarUltimoLog(lista);
+        ultimo->sig = newnodo;
     }
     return lista;
 }
+stNodoLog * buscarUltimoLog(stNodoLog * lista){
+    stNodoLog * ultimo = NULL;
+    if(lista){
+        ultimo = buscarUltimo(lista->sig);
+    }
+    return ultimo;
+}
+void mostrarNodoLog(stNodoLog * nodo){ /// RECURSIVA.
+    mostrarLog(nodo->dato);
+}
+void mostrarListaLog(stNodoLog * lista){ /// RECURSIVA.
 
-stNodo * BorrarNodoByEdad(int edad, stNodo * lista)
-{
-    stNodo * seg;
-    stNodo * ante;
-    if(lista != NULL)
-    {
-        if(edad == lista->Usuario.Edad)
-        {
-            stNodo * aux = lista;
-            lista = lista->Siguiente;
-            free(aux);
+    if(lista){
+        mostrarNodoLog(lista);
+        mostrarListaLog(lista->sig);
+    }
+}
+
+
+///Sección de funciones de arreglo de listas para el TPF.
+
+int buscarPosUsuario(stCelda adl[], int validos, int idBuscado){ /// Retorna la posicion del usuario buscandolo mediante su ID.
+    int pos = -1;
+    int i = 0;
+    while((i<validos) && (pos==-1)){
+        if(adl[i].user.idUsuario == idBuscado){
+            pos = i;
         }
-        else
-        {
-            seg = lista;
-            while((seg != NULL) && (edad != seg->Usuario.Edad))
-            {
-                ante = seg;
-                seg = seg->Siguiente;
-            }
-            if(seg!=NULL)
-            {
-                ante->Siguiente = seg->Siguiente;
-                free(seg);
-            }
+        i++;
+    }
+    return pos;
+}
+
+int agregarCelda(stCelda adl[],int validos,stUsuario newuser){ /// Agrega
+    adl[validos].user = newuser;
+    adl[validos].listaDeLog = inicLista();
+    validos++;
+
+    return validos;
+}
+
+int cargarAdl(stCelda adl[], int validos,stUsuario newuser){
+    int pos = buscarPosUsuario(adl,validos,newuser.idUsuario);
+    if(pos==-1){
+        validos = agregarCelda(adl,validos,newuser);
+        pos = validos-1;
+    }
+    adl[validos].listaDeLog = inicLista();
+    return validos;
+}
+
+int archivo2adl(stCelda adl[],int validos, int dim){
+    FILE * pArchi = fopen(arUsuarios,"rb");
+    int i = 0;
+    if(pArchi){
+        stUsuario newuser;
+        while((fread(&newuser,sizeof(stUsuario),1,pArchi)>0) &&(validos<dim)){
+
+            validos = cargarAdl(adl,validos,newuser);
         }
+        fclose(pArchi);
     }
 
-    return lista;
-}*/
-
-///Sección de funciones de listas para el TPF.
-
-
+    return validos;
+}
 

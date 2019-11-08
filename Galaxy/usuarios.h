@@ -9,25 +9,23 @@ typedef struct{
     char Contra[30];
 }Usuario;
 
+
 typedef struct{
     int idUsuario;
     int tipo; // 1 o 0 si es admin o no
     char nombreUsuario[30];
     char pass[20];
-    int anioNacimiento; /// Ver si lo dejamos, tenemos que crear 3 variables, año mes y dia para que el usuario no rompa las pelotas
     char genero;
     char pais[20];
     int activo;   // 1 o 0 si esta activo
 }stUsuario;
 
+typedef struct{
+    int idUsuario; /// Id del usuario a usar.
+    int idLog; /// Numero de registro.
+    int puntaje; /// Puntaje del usuario.
+}stLog;
 
-/*
-typedef struct
-{
-    stUsuario user;
-    nodoPuntaje * listaDePuntajes;
-}stCelda /// Para el arreglo de puntajes.
-*/
 
 ///Crea usuarios en loop
 void cargaArchivoUsuarios();
@@ -74,6 +72,9 @@ int eliminarUsuarioById(int usuaId);
 void eliminacionDeUsuario(Usuario usuaLogueado);
 ///Eliminacion del propio usuario
 void eliminarMiUsuario(stUsuario usuaLogueado);
+
+///Muestra un log.
+void mostrarLog(stLog logMostrado);
 
 
 #endif // USUARIOS_H_INCLUDED

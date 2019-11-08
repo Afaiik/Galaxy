@@ -1,20 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "Listas.h"
+
+
 
 //Menu de acceso al sistema donde te registras o logueas
 void menuLogin();
 void showTituloBienvenido();
 
-
-
-typedef struct
-{
-    int idLog;
-    int idUsuario;
-    int score;
-} stLog;
 
 int main()
 {

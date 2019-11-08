@@ -64,3 +64,29 @@
 	<stdlib.h>
 	"Listas.h "
 
+1572709922 source:f:\galaxy\0.02\galaxy-master\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1573165454 source:f:\galaxy\0.02\galaxy-master\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h"
+
+1573172828 f:\galaxy\0.02\galaxy-master\galaxy\listas.h
+	"usuarios.h"
+
+1573172828 f:\galaxy\0.02\galaxy-master\galaxy\usuarios.h
+
+1573172910 source:f:\galaxy\0.02\galaxy-master\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
+1573172918 source:f:\galaxy\0.02\galaxy-master\galaxy\usuarios.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	"usuarios.h"
+
