@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 #include "usuarios.h"
 
-#define arUsuarios "usuarios.dat"
+#define arUsuarios "arUsuarios.dat"
 
 #define ESC 27
 
-#define CODADMIN 123
+#define CODADMIN "asd"
 #define TIPOADMIN 1
 #define TIPONORMAL 0
 
@@ -15,16 +16,16 @@ void cargaArchivoUsuarios(){
 
 }
 
-stUsuario crearUnUsuario() /// Adaptada.
+stUsuario crearUnUsuario() 
 {
     stUsuario newuser;
     char codAdmin[20];
     int valido = 0;
 
-    char genAux;
+    char genAux = 0;
     char nombreAux[30];
     newuser.activo = 1;
-    newuser.idUsuario = getUltimoIdUsuario(archivoUsuarios)+1;
+    newuser.idUsuario = getUltimoIdUsuario(arUsuarios)+1;
     system("cls");
 
     while(valido == 0)
@@ -36,8 +37,9 @@ stUsuario crearUnUsuario() /// Adaptada.
        // int anioNacimiento;
         char genero;
         char pais[20];
+        int debugCheck = checkExisteUsuarioNombre(nombreAux,arUsuarios); 
 
-        if(checkExisteUsuarioNombre(nombreAux,archivoUsuarios) == 0)
+        if( debugCheck == 0)
         {
             valido = 1;
             strcpy(newuser.nombreUsuario, nombreAux);
@@ -56,42 +58,48 @@ stUsuario crearUnUsuario() /// Adaptada.
     printf("\nPassword.....................:");
     fflush(stdin);
     gets(newuser.pass);
-    printf("\nGenero(M/F).................:");
-    fflush(stdin);
-    scanf("%c",&genAux);
-    while(tolower(genAux) != 'f' || tolower(genAux) != 'm'){
-        printf("\nOPCION INCORRECTA, INGRESE UNA VALIDA (M/F)");
+    //printf("\nIngrese su fecha de nacimiento (Formato: AAAA/MM/DD");
+    //scanf("%d")
+    
+    valido = 0;
+    while(!valido){
+        
+        printf("\nGenero(M/F).................:");
         fflush(stdin);
-        scanf("%c",&genAux);
+        scanf("%c", &genAux);
+        if(tolower(genAux) == 'f' || tolower(genAux) == 'm'){
+            newuser.genero = genAux;
+            valido = 1;
+        }
     }
-    strcpy(newuser.genero,genAux);
+
     printf("\nPAIS........................:");
     fflush(stdin);
     gets(newuser.pais); /// Si queremos rebuscarla mucho, hacemos un archivo con paises existentes, y si no lo encuentra ahí, le pedimos que ingrese uno que exista.
-
     char tieneCod = 0; /// Si tiene codigo 'S', sino 'N'
-
+    valido = 0;
+    while(!valido){
+        
         printf("\nPosee codigo de administrador ? S/N");
         fflush(stdin);
         scanf("%c", &tieneCod);
-        while(tolower(tieneCod) != 's' || tolower(tieneCod) != 'n'){
-            printf("\nOPCION INCORRECTA");
-            fflush(stdin);
-            scanf("%c", &tieneCod);
-        }
+        if(tolower(tieneCod) == 's' || tolower(tieneCod) == 'n')
+            valido = 1;
+    }
 
     if(tolower(tieneCod) == 's'){
         printf("\nIngrese su codigo de administrador: ");
-        scanf("%d", &codAdmin);
+        fflush(stdin);
+        scanf("%s", codAdmin);
 
-        if(strcmp(codAdmin, CODADMIN) == 0)
-            newuser.tipo = TIPOADMIN;
-        else///TIPO DE USUARIO 1 ADMIN 0 USUARIO REGULAR
-            newuser.tipo = TIPONORMAL;
-
-        guardarUsuario(newuser);
     }
-
+    
+    if(strcmp(codAdmin, CODADMIN) == 0)
+        newuser.tipo = 1;
+    else///TIPO DE USUARIO 1 ADMIN 0 USUARIO REGULAR
+        newuser.tipo = 0;
+    
+    ///mostrarUnUsuario(newuser);
     return newuser;
 }
 
@@ -102,9 +110,8 @@ void crearUnUsuarioEnArchivo() /// Adaptada.
 }
 
 void guardarUsuario(stUsuario newuser){ /// Adaptada.
-    FILE *pArchUsuarios = fopen(archivoUsuarios,"a+b");
+    FILE * pArchUsuarios = fopen(arUsuarios,"a+b");
     if(pArchUsuarios){
-        fseek(pArchUsuarios, sizeof(stUsuario), SEEK_END);
         fwrite(&newuser, sizeof(stUsuario),1,pArchUsuarios);
         fclose(pArchUsuarios);
     }
@@ -113,13 +120,13 @@ void guardarUsuario(stUsuario newuser){ /// Adaptada.
 
 void mostrarUnUsuario(stUsuario newuser)
 {
-    if(newuser.activo == 1)
-    {
+    if(newuser.activo == 1){
         printf("\n ID: %d", newuser.idUsuario);
         printf("\n Activo: %d", newuser.activo);
         printf("\n Tipo: %d", newuser.tipo);
         printf("\n Nombre: %s", newuser.nombreUsuario);
         printf("\n Password: %s", newuser.pass);
+        //printf("\n Año: ",newuser.anioNacimiento);
         if(tolower(newuser.genero) == 'm'){
             printf("\nGenero: Masculino");
         }else{
@@ -128,6 +135,7 @@ void mostrarUnUsuario(stUsuario newuser)
         printf("\n Pais: %s",newuser.pais);
         printf("\n____________________");
     }
+        
 }
 
 void mostrarArregloUsuarios(stUsuario user[], int val)
@@ -139,15 +147,14 @@ void mostrarArregloUsuarios(stUsuario user[], int val)
     }
 }
 
-void mostrarArchivoUsuarios(char arUsuarios[])
+void mostrarArchivoUsuarios()
 {
     FILE *archi;
-    archi = fopen(arUsuarios, "rb");
+    archi = fopen("arUsuarios.dat", "r+b");
     stUsuario usuaAux;
-
-    if(archi)
+    if(archi != NULL)
     {
-        while(fread(&usuaAux, sizeof(stUsuario),1,archi)>0)
+        while(fread(&usuaAux, sizeof(stUsuario),1,archi) > 0)
         {
             if(usuaAux.activo == 1)
             {
@@ -158,10 +165,10 @@ void mostrarArchivoUsuarios(char arUsuarios[])
     }
 }
 
-void mostrarUsuariosAdministradores(char arUsuarios[])
+void mostrarUsuariosAdministradores(char archivoUsuarios[])
 {
     FILE *archi;
-    archi = fopen(arUsuarios, "rb");
+    archi = fopen(archivoUsuarios, "rb");
     stUsuario usuaAux;
 
     if(archi != NULL)
@@ -200,11 +207,11 @@ int getUltimoIdUsuario(char archivo[])
     return mayor;
 }
 
-int checkExisteUsuarioId(int idBuscado, char arUsuarios[])
+int checkExisteUsuarioId(int idBuscado, char archivoUsuarios[])
 {
     Usuario usua;
     int flag = -1; /// -1 error no abrio archivo, 0 no encontro ID, 1 encontro ID
-    FILE *pArch = fopen(arUsuarios, "rb");
+    FILE *pArch = fopen(archivoUsuarios, "rb");
 
     if(pArch != NULL)
     {
@@ -225,12 +232,12 @@ int checkExisteUsuarioId(int idBuscado, char arUsuarios[])
    return flag;
 }
 
-int checkExisteUsuarioNombre(char nombreBuscado[], char arUsuarios[])
+int checkExisteUsuarioNombre(char nombreBuscado[], char archivoUsuarios[])
 {
     stUsuario user;
     int flag = -1; /// -1 error no abrio archivo, 0 no encontro ID, 1 encontro ID
     FILE *pArch;
-    pArch = fopen(arUsuarios, "rb");
+    pArch = fopen(archivoUsuarios, "r+b");
 
     if(pArch)
     {
@@ -251,14 +258,14 @@ int checkExisteUsuarioNombre(char nombreBuscado[], char arUsuarios[])
    return flag;
 }
 
-int checkTipoUsuarioById(int usuaId, char arUsuarios[])
+int checkTipoUsuarioById(int usuaId, char archivoUsuarios[])
 {
 
     Usuario usua;
     int flag = -1; /// -1 error no abrio archivo, 0 no es admin, 1 es admin
     FILE *pArch;
-    pArch = fopen(arUsuarios, "rb");
-    if(usuaId <= getUltimoIdUsuario(arUsuarios))
+    pArch = fopen(archivoUsuarios, "rb");
+    if(usuaId <= getUltimoIdUsuario(archivoUsuarios))
     {
         if(pArch != NULL)
         {
@@ -290,29 +297,29 @@ int checkTipoUsuarioById(int usuaId, char arUsuarios[])
    return flag;
 }
 
-Usuario getUsuarioById(int idBuscado, char arUsuarios[])
+stUsuario getUsuarioById(int idBuscado, char archivoUsuarios[])
 {
-    Usuario usua;
+    stUsuario usua;
     int flag = 0;
     char stringAux[30] = "Usuario no encontrado";
     FILE *pArch;
-    pArch = fopen(arUsuarios, "rb");
+    pArch = fopen(archivoUsuarios, "rb");
 
-    if(idBuscado <= getUltimoIdUsuario(arUsuarios))
+    if(idBuscado <= getUltimoIdUsuario(archivoUsuarios))
     {
         if(pArch != NULL)
         {
-            while((flag == 0) && (fread(&usua, sizeof(Usuario), 1, pArch)>0))
+            while((flag == 0) && (fread(&usua, sizeof(stUsuario), 1, pArch)>0))
             {
-                if(usua.Id == idBuscado)
+                if(usua.idUsuario == idBuscado)
                 {
                     flag = 1;
                 }
             }
-            if((flag == 0) || (usua.Activo == 0))
+            if((flag == 0) || (usua.activo == 0))
             {
-                usua.Id = -1;
-                strcpy(usua.Nombre, stringAux);
+                usua.idUsuario = -1;
+                strcpy(usua.nombreUsuario, stringAux);
             }
 
             fclose(pArch);
@@ -332,9 +339,9 @@ Usuario getUsuarioById(int idBuscado, char arUsuarios[])
    return usua;
 }
 
-Usuario getUsuarioByNombre(char nombreBuscado[], char arUsuarios[])
+stUsuario getUsuarioByNombre(char nombreBuscado[], char archivoUsuarios[])
 {
-    Usuario usua;
+    stUsuario usua;
     int flag = 0;
     char stringAux[30] = "Usuario no encontrado";
     FILE *pArch;
@@ -342,17 +349,17 @@ Usuario getUsuarioByNombre(char nombreBuscado[], char arUsuarios[])
 
         if(pArch != NULL)
         {
-            while((flag == 0) && (fread(&usua, sizeof(Usuario), 1, pArch)>0))
+            while((flag == 0) && (fread(&usua, sizeof(stUsuario), 1, pArch)>0))
             {
-                if(strcmp(strlwr(usua.Nombre), strlwr(nombreBuscado)) == 0)
+                if(strcmpi(usua.nombreUsuario, nombreBuscado) == 0)
                 {
                     flag = 1;
                 }
             }
-            if((flag == 0) || (usua.Activo == 0))
+            if((flag == 0) || (usua.activo == 0))
             {
-                usua.Id = -1;
-                strcpy(usua.Nombre, stringAux);
+                usua.idUsuario = -1;
+                strcpy(usua.nombreUsuario, stringAux);
             }
 
             fclose(pArch);
@@ -361,12 +368,12 @@ Usuario getUsuarioByNombre(char nombreBuscado[], char arUsuarios[])
 }
 
 
-int eliminarUsuarioById(int usuaId)
+int eliminarUsuarioById(int usuaId)///SIN ADAPTAR
 {
     Usuario usua;
     int flag = 0;
     FILE *pArch;
-    pArch = fopen(archivoUsuarios, "r+b");
+    pArch = fopen(arUsuarios, "r+b");
 
     if(pArch != NULL)
     {
@@ -431,9 +438,9 @@ void eliminarMiUsuario(stUsuario usuaLogueado)
 }
 
 
-void eliminacionDeUsuario(Usuario usuaLogueado)
+void eliminacionDeUsuario(stUsuario usuaLogueado)
 {
-    Usuario usua;
+    stUsuario usua; //Funcion sin adaptar, @TODO@
     int flag = -1;
     FILE *pArch;
     char opcion;
@@ -443,15 +450,15 @@ void eliminacionDeUsuario(Usuario usuaLogueado)
     printf("Introduzca el nombre del usuario que desea eliminar");
     fflush(stdin);
     gets(nombreUsua);
-    usua = getUsuarioByNombre(nombreUsua, archivoUsuarios);
+    usua = getUsuarioByNombre(nombreUsua, arUsuarios);
 
     printf("\n\n\t\tESTA SEGURO DE ELIMINAR EL SIGUIENTE USUARIO ?? S/N \n");
-//    mostrarUnUsuario(usua);
+    mostrarUnUsuario(usua);
     fflush(stdin);
     scanf("%c", &opcion);
     if((opcion == 'S') || (opcion == 's'))
     {
-        flag = eliminarUsuarioById(usua.Id);
+        flag = eliminarUsuarioById(usua.idUsuario);
         if(flag == 1)
         {
             system("cls");
@@ -481,8 +488,3 @@ void eliminacionDeUsuario(Usuario usuaLogueado)
 
 }
 
-void mostrarLog(stLog logMostrado){
-    printf("\nID USUARIO: %d",logMostrado.idUsuario);
-    printf("\nID LOG: %d",logMostrado.idLog);
-    printf("\nSCORE: %d",logMostrado.puntaje);
-}

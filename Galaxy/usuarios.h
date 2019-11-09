@@ -27,6 +27,14 @@ typedef struct{
 }stLog;
 
 
+/*
+typedef struct
+{
+    stUsuario user;
+    nodoPuntaje * listaDePuntajes;
+}stCelda /// Para el arreglo de puntajes.
+*/
+
 ///Crea usuarios en loop
 void cargaArchivoUsuarios();
 
@@ -46,7 +54,7 @@ void mostrarUnUsuario(stUsuario newuser);
 void mostrarArregloUsuarios(stUsuario user[], int val);
 
 ///Mostrar un archivo de usuarios (usa MostrarUnUsuario)
-void mostrarArchivoUsuarios(char arUsuarios[]);
+void mostrarArchivoUsuarios();
 ///Mostrar Administradores
 void mostrarUsuariosAdministradores(char arUsuarios[]);
 
@@ -62,19 +70,17 @@ int checkExisteUsuarioNombre(char nombreBuscado[], char arUsuarios[]);
 int checkTipoUsuarioById(int usuaId, char arUsuarios[]);
 
 ///Devuelve el usuario buscado por ID
-Usuario getUsuarioById(int idBuscado, char arUsuarios[]);
+stUsuario getUsuarioById(int idBuscado, char arUsuarios[]);
 ///IDEM pero busca por nombre
-Usuario getUsuarioByNombre(char nombreBuscado[], char arUsuarios[]);
+stUsuario getUsuarioByNombre(char nombreBuscado[], char arUsuarios[]);
 
 ///Baja Logica de usuario buscandolo por ID (Activo = 0)
 int eliminarUsuarioById(int usuaId);
 ///Interfaz de eliminacion de usuario
-void eliminacionDeUsuario(Usuario usuaLogueado);
+void eliminacionDeUsuario(stUsuario usuaLogueado);
 ///Eliminacion del propio usuario
 void eliminarMiUsuario(stUsuario usuaLogueado);
 
-///Muestra un log.
-void mostrarLog(stLog logMostrado);
 
 
 #endif // USUARIOS_H_INCLUDED

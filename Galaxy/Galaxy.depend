@@ -90,3 +90,32 @@
 	<ctype.h>
 	"usuarios.h"
 
+1573252724 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1573270852 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
+1573332716 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	"Listas.h"
+
+1573253617 c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.h
+	"usuarios.h"
+
+1573270971 c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.h
+
+1573275469 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"usuarios.h"
+

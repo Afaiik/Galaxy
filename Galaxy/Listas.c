@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include "Listas.h "
 
+#define arUsuarios "arUsuarios.dat"
+#define arLogs "arLogs.dat"
+
 #define ESC 27
 
 //Funciones de nodoUsuario
@@ -192,7 +195,7 @@ stNodoLog * buscarUltimoLog(stNodoLog * lista){
     }
     return ultimo;
 }
-void mostrarNodoLog(stNodoLog * nodo){ /// RECURSIVA.
+void mostrarNodoLog(stNodoLog * nodo){
     mostrarLog(nodo->dato);
 }
 void mostrarListaLog(stNodoLog * lista){ /// RECURSIVA.
@@ -203,7 +206,7 @@ void mostrarListaLog(stNodoLog * lista){ /// RECURSIVA.
     }
 }
 
-///Sección de funciones de arreglo de listas para el TPF.
+///Secciï¿½n de funciones de arreglo de listas para el TPF.
 
 int buscarPosUsuario(stCelda adl[], int validos, int idBuscado){ /// Retorna la posicion del usuario buscandolo mediante su ID.
     int pos = -1;
@@ -243,7 +246,7 @@ int usuarios2arreglo(stCelda adl[],int validos, int dim){
     if(pArchi){
         stUsuario newuser;
         while((fread(&newuser,sizeof(stUsuario),1,pArchi)>0) &&(validos<dim)){
-            validos = cargarArreglo(adl,validos,newuser);
+            ///validos = cargarArreglo(adl,validos,newuser);  FUNCION PERDIDA @TODO@
         }
         fclose(pArchi);
     }
@@ -256,12 +259,18 @@ stNodoLog * logeos2listaEnAdl(stNodoLog * lista){
     if(pArchiLog){
         stLog newlog;
         stNodoLog * newnodo;
-        while(fread(&newlog,sizeof(stLog),1,pArchi)>0){
+        while(fread(&newlog,sizeof(stLog),1,pArchiLog)>0){
             newnodo = crearNodoLog(newlog);
             lista = agregarPrincipioLog(lista,newnodo);
         }
-        fclose(pArchi);
+        fclose(pArchiLog);
     }
     return lista;
 }
 
+
+void mostrarLog(stLog logMostrado){
+    printf("\nID USUARIO: %d",logMostrado.idUsuario);
+    printf("\nID LOG: %d",logMostrado.idLog);
+    printf("\nSCORE: %d",logMostrado.puntaje);
+}
