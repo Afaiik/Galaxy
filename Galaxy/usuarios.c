@@ -173,7 +173,7 @@ void mostrarUsuariosAdministradores(char archivoUsuarios[])
 
     if(archi != NULL)
     {
-        while(fread(&usuaAux, sizeof(Usuario),1,archi)>0)
+        while(fread(&usuaAux, sizeof(stUsuario),1,archi)>0)
         {
             if((usuaAux.activo == 1) && (usuaAux.tipo == TIPOADMIN))
             {
@@ -187,37 +187,28 @@ void mostrarUsuariosAdministradores(char archivoUsuarios[])
 int getUltimoIdUsuario(char archivo[])
 {
     int mayor = 0;
-    FILE *archi;
-    archi = fopen(archivo, "rb");
-    Usuario usuaAux;
-
-    if(archi != NULL)
-    {
-        while(!feof(archi)) ///Se cambio de fread > 0 a !feof porque no funcionaba
-        {
-            fread(&usuaAux,sizeof(Usuario),1,archi);
-            if(!feof(archi))
-            {
-                if(usuaAux.Id > mayor)
-                    mayor = usuaAux.Id;
-            }
-        }
-        fclose(archi);
+    FILE * pArchi = fopen(archivo, "rb");
+    stUsuario usuaAux;
+    if(pArchi){
+        fseek(pArchi,0,SEEK_END);
+        int bytes = ftell(pArchi);
+        mayor = bytes / sizeof(stUsuario);
     }
+    
     return mayor;
 }
 
 int checkExisteUsuarioId(int idBuscado, char archivoUsuarios[])
 {
-    Usuario usua;
+    stUsuario usua;
     int flag = -1; /// -1 error no abrio archivo, 0 no encontro ID, 1 encontro ID
     FILE *pArch = fopen(archivoUsuarios, "rb");
 
     if(pArch != NULL)
     {
-        while(fread(&usua, sizeof(Usuario), 1, pArch) > 0)
+        while(fread(&usua, sizeof(stUsuario), 1, pArch) > 0)
         {
-            if((usua.Id == idBuscado) && (usua.Activo == 1))
+            if((usua.idUsuario == idBuscado) && (usua.activo == 1))
             {
                 flag = 1;
             }
@@ -242,7 +233,7 @@ int checkExisteUsuarioNombre(char nombreBuscado[], char archivoUsuarios[])
     if(pArch)
     {
         while(fread(&user, sizeof(stUsuario), 1, pArch)>0)
-        {
+        {   
             if((strcmpi(user.nombreUsuario,nombreBuscado)== 0) && (user.activo == 1))
             {
                 flag = 1;
@@ -344,14 +335,13 @@ stUsuario getUsuarioByNombre(char nombreBuscado[], char archivoUsuarios[])
     stUsuario usua;
     int flag = 0;
     char stringAux[30] = "Usuario no encontrado";
-    FILE *pArch;
-    pArch = fopen(archivoUsuarios, "rb");
+    FILE *pArch = fopen(archivoUsuarios, "rb");
 
         if(pArch != NULL)
         {
             while((flag == 0) && (fread(&usua, sizeof(stUsuario), 1, pArch)>0))
             {
-                if(strcmpi(usua.nombreUsuario, nombreBuscado) == 0)
+                if(strcmpi(usua.nombreUsuario, nombreBuscado) == 0 && usua.activo == 1)
                 {
                     flag = 1;
                 }
@@ -368,28 +358,28 @@ stUsuario getUsuarioByNombre(char nombreBuscado[], char archivoUsuarios[])
 }
 
 
-int eliminarUsuarioById(int usuaId)///SIN ADAPTAR
+int eliminarUsuarioById(int usuaId)
 {
-    Usuario usua;
+    stUsuario usua;
     int flag = 0;
     FILE *pArch;
     pArch = fopen(arUsuarios, "r+b");
 
     if(pArch != NULL)
     {
-        while((flag == 0) && (fread(&usua, sizeof(Usuario), 1, pArch)>0))
+        while((flag == 0) && (fread(&usua, sizeof(stUsuario), 1, pArch)>0))
         {
-            if(usua.Id == usuaId)
+            if(usua.idUsuario == usuaId)
             {
-                if(usua.Activo == 1)
+                if(usua.activo == 1)
                 {
                     flag = 1;
                 }
             }
         }
-    usua.Activo = 0;
-    fseek(pArch, sizeof(Usuario)*(-1), SEEK_CUR);
-    fwrite(&usua, sizeof(Usuario), 1, pArch);
+    usua.activo = 0;
+    fseek(pArch, sizeof(stUsuario)*(-1), SEEK_CUR);
+    fwrite(&usua, sizeof(stUsuario), 1, pArch);
     fclose(pArch);
     }
    return flag;
@@ -397,9 +387,8 @@ int eliminarUsuarioById(int usuaId)///SIN ADAPTAR
 
 void eliminarMiUsuario(stUsuario usuaLogueado)
 {
-    Usuario usua;
+    stUsuario usua;
     int flag = -1;
-    FILE *pArch;
     char opcion;
     system("cls");
     printf("\n\t\t<<<<<<<<<ELIMINACION DE USUARIO>>>>>>>>>");
@@ -421,7 +410,7 @@ void eliminarMiUsuario(stUsuario usuaLogueado)
             getch();
             gotoxy(0,0);
             system("cls");
-//            menuLogin();
+            menuLogin();
         }else
         {
 
@@ -432,7 +421,7 @@ void eliminarMiUsuario(stUsuario usuaLogueado)
             getch();
             gotoxy(0,0);
             system("cls");
-//            menuLogin();
+            menuLogin();
         }
     }
 }
@@ -468,7 +457,7 @@ void eliminacionDeUsuario(stUsuario usuaLogueado)
             getch();
             gotoxy(0,0);
             system("cls");
-//            menuLogin();
+            menuLogin();
         }else
         {
 
@@ -479,7 +468,7 @@ void eliminacionDeUsuario(stUsuario usuaLogueado)
             getch();
             gotoxy(0,0);
             system("cls");
-//            menuLogin();
+            menuLogin();
         }
     }else
     {
@@ -488,3 +477,101 @@ void eliminacionDeUsuario(stUsuario usuaLogueado)
 
 }
 
+void modificarPassword(stUsuario usuaLogueado, char newPass[30])
+{
+    stUsuario usuaAux;
+    int flag = 0;
+    FILE *pArch= fopen(arUsuarios, "r+b");
+    if(pArch != NULL)
+    {
+        while((flag != 1) && (fread(&usuaAux, sizeof(stUsuario), 1, pArch) > 0))
+        {
+            if(usuaAux.idUsuario == usuaLogueado.idUsuario)
+            {
+                flag = 1;
+            }
+        }
+    strcpy(usuaLogueado.pass, newPass);
+    fseek(pArch,sizeof(stUsuario) * (-1), SEEK_CUR);
+    fwrite(&usuaLogueado,sizeof(stUsuario), 1, pArch);
+    fclose(pArch);
+    }
+
+}
+
+
+void menuModificarPassword(stUsuario usuaLogueado)
+{
+    char newPass[30];
+    char newPassAux[30];
+    char passActual[30];
+    int valido = 0;
+
+    while(valido != 1)
+    {   
+
+        while(valido != 1)
+        {
+            system("cls");
+            printf("\n\t\t<<<<<<<<<<Modificacion de Password>>>>>>>>>>>");
+            printf("\nIngrese su password actual......:   ");
+            fflush(stdin);
+            scanf("%s", passActual);
+            if(strcmp(strlwr(passActual),strlwr(usuaLogueado.pass)) != 0)
+            {
+                system("cls");
+                printf("\a");
+                gotoxy(15,5);
+                printf("Ese no es su password !!");
+                getch();
+                gotoxy(0,0);
+                menuGestionMiUsuario(usuaLogueado);
+            }else
+            {
+                valido = 1;
+            }
+        }
+        valido = 0;
+        printf("\nIngrese su nuevo password........:   ");
+        fflush(stdin);
+        scanf("%s", newPass);
+
+        if(strcmp(strlwr(newPass),strlwr(usuaLogueado.pass)) == 0)
+        {
+            system("cls");
+            printf("\a");
+            gotoxy(15,5);
+            printf("No puede ingresar la misma clave que tenia !! Grow up a little !");
+            getch();
+            gotoxy(0,0);
+            menuGestionMiUsuario(usuaLogueado);
+        }
+
+        printf("Repita su nuevo password...........:   ");
+        scanf("%s", newPassAux);
+        if(strcmp(strlwr(newPass), strlwr(newPassAux)) == 0)
+        {
+            valido = 1;
+
+            modificarPassword(usuaLogueado, newPass);
+
+            system("cls");
+            printf("\a");
+            gotoxy(15,5);
+            printf("SU CONTRASEÑA HA SIDO CAMBIADA ! :)");
+            getch();
+            gotoxy(0,0);
+            system("cls");
+        }else
+        {
+            system("cls");
+            printf("\a");
+            gotoxy(15,5);
+            printf("DATOS INCORRECTOS !");
+            getch();
+            gotoxy(0,0);
+            system("cls");
+        }
+    }
+    menuLogin();
+}

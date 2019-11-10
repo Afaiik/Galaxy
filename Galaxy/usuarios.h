@@ -82,5 +82,9 @@ void eliminacionDeUsuario(stUsuario usuaLogueado);
 void eliminarMiUsuario(stUsuario usuaLogueado);
 
 
+///Funcion que modifica la password
+void modificarPassword(stUsuario usuaLogueado, char newPass[30]);
+///Menu interfaz de modificacion de password
+void menuModificarPassword(stUsuario usuaLogueado);
 
 #endif // USUARIOS_H_INCLUDED

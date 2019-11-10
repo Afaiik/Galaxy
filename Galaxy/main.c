@@ -6,6 +6,7 @@
 #include "Listas.h"
 
 #define arUsuarios "arUsuarios.dat"
+#define arLogs "arLogs.dat"
 
 //Menu de acceso al sistema donde te registras o logueas
 void menuLogin();
@@ -14,11 +15,22 @@ void doLogin();
 
 int main()
 {
-    //system("color f0");
+    ///system("color f0");
     srand(time(NULL));
     hidecursor(0);
-    //printMarcianito();
+
     menuLogin();
+
+    /// Me daba paja loguearme asique estaba logueando asi para entrar al menu ppal o donde este laburando de una
+    ///stUsuario logged = getUsuarioByNombre("efra", arUsuarios);
+    ///menuPrincipal(logged);
+
+
+    /// TOMI ACA TE DEJO LO DE GENERAR LOGS RANDOM SI TE SIRVE
+    /// HICE UNA FUNCION PARA MOSTRAR LOGS EN LA MISMA LINEA, SI TE PARECE MEJOR CAMBIALA EN LISTAS.C Y ELIMINA ESTA FUNCION
+    /*generarLogsPrueba(500);
+    mostrarArchivoLogs("arLogsPrueba.dat");*/
+
     return 0;
 }
 
@@ -214,7 +226,7 @@ void menuPrincipal(stUsuario usuaLogueado){
                     opcionValida = 1;
                     menuAdministracion(usuaLogueado);
                     break;
-                }///Sin else no hay break por lo tanto va a default
+                }///Sin cumplir el IF no hay break por lo tanto va a default
 
             default:
                 system("cls");
@@ -331,17 +343,105 @@ void menuInstrucciones(stUsuario usuaLogueado){
 }
 
 void menuGestionMiUsuario(stUsuario usuaLogueado){
-    printf("\nMENU MI USUARIO");
-    enDesarrollo(usuaLogueado);
-}
+    int opcion;
+    int opcionValida = 0;
+    system("cls");
+    showTituloPrincipal();
+    printf("\n");
+    printf("\n\t1- Modificar mi password");
+    printf("\n\t2- Eliminar mi usuario");
+    printf("\n\t3- Volver al menu anterior ");
 
-void menuEstadisticas(stUsuario usuaLogueado){
-    printf("\nMENU ESTADISTICAS");
-    enDesarrollo(usuaLogueado);
+    opcion = getch();
+    while(opcionValida != 1)
+    {
+        switch(opcion) {
+
+            case 49:
+                opcionValida = 1;
+                menuModificarPassword(usuaLogueado);
+                break;
+
+            case 50:
+                opcionValida = 1;
+                eliminarMiUsuario(usuaLogueado);
+                break;
+
+            case 51:
+                opcionValida = 1;
+                menuPrincipal(usuaLogueado);
+                break;
+
+            default:
+                system("cls");
+                gotoxy(30,10);
+                //color(4);
+                printf("OPCION INVALIDA");
+                getch();
+                gotoxy(0,0);
+                system("cls");
+                menuPrincipal(usuaLogueado);
+                break;
+        }
+    }
 }
 
 void menuAdministracion(stUsuario usuaLogueado){
-    printf("\nMENU ADMINISTRACION");
+    int opcion;
+    int opcionValida = 0;
+    system("cls");
+    showTituloPrincipal();
+    printf("\n");
+    printf("\n\t1- Mostrar todos los usuarios");
+    printf("\n\t2- Eliminar usuario por Nombre");
+    printf("\n\t3- Eliminar usuario por ID");
+    printf("\n\t4- Ver Logs de partidas segun usuario");
+    printf("\n\t5- Volver al menu anterior");
+
+    ///Alguna opcion mas para el admin ?
+
+    opcion = getch();
+    while(opcionValida != 1)
+    {
+        switch(opcion) {
+
+            case 49:
+                opcionValida = 1;
+                enDesarrollo(usuaLogueado);
+                break;
+            case 50:
+                opcionValida = 1;
+                enDesarrollo(usuaLogueado);
+                break;
+            case 51:
+                opcionValida = 1;
+                enDesarrollo(usuaLogueado);
+                break;
+            case 52:
+                opcionValida = 1;
+                enDesarrollo(usuaLogueado);
+                break;
+            case 53:
+                opcionValida = 1;
+                menuPrincipal(usuaLogueado);
+                break;
+
+            default:
+                system("cls");
+                gotoxy(30,10);
+                //color(4);
+                printf("OPCION INVALIDA");
+                getch();
+                gotoxy(0,0);
+                system("cls");
+                menuPrincipal(usuaLogueado);
+                break;
+        }
+    }
+}
+
+void menuEstadisticas(stUsuario usuaLogueado){
+    printf("\n\t\t\tMENU ESTADISTICAS");
     enDesarrollo(usuaLogueado);
 }
 
@@ -349,4 +449,37 @@ void enDesarrollo(stUsuario usuaLogueado){
     puts("\n\t\t\tFuncion En Desarrollo :( ");
     getch();
     menuPrincipal(usuaLogueado);
+}
+
+
+void generarLogsPrueba(int cantidad){
+    stLog newLog;
+    newLog.idLog = 0;
+
+    ///W+B para que cuando generas un nuevo archivo de prueba se elimine lo que tenai
+    FILE * pArchi = fopen("arLogsPrueba.dat", "w+b");
+    if(pArchi){
+        while(newLog.idLog < cantidad){
+            fwrite(&newLog, sizeof(stLog), 1, pArchi);
+            newLog.idLog++;
+            newLog.idUsuario = rand() % 10 + 1; ///desde 1 hasta 10 inclusive
+            newLog.puntaje = rand() % 1000; ///idem
+            printf("\nGenerando Log numero: %d", newLog.idLog);
+        }
+        fclose(pArchi);
+    }
+}
+
+void mostrarLogSimple(stLog log){
+    printf("\nLog ID..: %d   UserId..: %d   Score..: %d", log.idLog, log.idUsuario, log.puntaje);
+}
+
+void mostrarArchivoLogs(char nombreArchivo[]){
+    stLog aux;
+    FILE * pArchi = fopen(nombreArchivo, "rb");
+    if(pArchi){
+        while(fread(&aux, sizeof(stLog), 1, pArchi) > 0){
+            mostrarLogSimple(aux);
+        }
+    }
 }

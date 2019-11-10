@@ -95,12 +95,12 @@
 	<stdlib.h>
 	<windows.h>
 
-1573270852 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.c
+1573334668 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.c
 	<stdio.h>
 	<stdlib.h>
 	"Listas.h "
 
-1573332716 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\main.c
+1573338203 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\main.c
 	<stdio.h>
 	<stdlib.h>
 	<conio.h>
@@ -110,9 +110,9 @@
 1573253617 c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.h
 	"usuarios.h"
 
-1573270971 c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.h
+1573337637 c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.h
 
-1573275469 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.c
+1573339030 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.c
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
