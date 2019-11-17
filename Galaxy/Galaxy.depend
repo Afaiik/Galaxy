@@ -119,3 +119,32 @@
 	<string.h>
 	"usuarios.h"
 
+1573344205 source:d:\tomas\downloads\galaxy-master\galaxy\gotoxy.c
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+
+1573846770 source:d:\tomas\downloads\galaxy-master\galaxy\listas.c
+	<stdio.h>
+	<stdlib.h>
+	"Listas.h "
+
+1573925330 source:d:\tomas\downloads\galaxy-master\galaxy\main.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	"Listas.h"
+
+1573836217 d:\tomas\downloads\galaxy-master\galaxy\listas.h
+	"usuarios.h"
+
+1573843128 d:\tomas\downloads\galaxy-master\galaxy\usuarios.h
+
+1573925104 source:d:\tomas\downloads\galaxy-master\galaxy\usuarios.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"usuarios.h"
+

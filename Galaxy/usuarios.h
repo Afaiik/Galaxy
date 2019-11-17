@@ -62,7 +62,7 @@ void mostrarUsuariosAdministradores(char arUsuarios[]);
 int getUltimoIdUsuario(char archivo[]);
 
 ///Busca si existe un ID indicado, devuelve 1 o 0
-int checkExisteUsuarioId(int idBuscado, char arUsuarios[]);
+int checkExisteUsuarioId(int idBuscado,char archivoUsuarios[]);
 ///IDEM pero busca por nombre
 int checkExisteUsuarioNombre(char nombreBuscado[], char arUsuarios[]);
 

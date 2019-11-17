@@ -50,6 +50,7 @@ int cargarAdl(stCelda adl[], int validos,stUsuario newuser);
 stNodoLog * cargaListaEnAdl();
 int usuarios2arreglo(stCelda adl[],int validos, int dim);
 stNodoLog * logeos2listaEnAdl(stNodoLog * lista);
+void mostrarAdl(stCelda adl[],int validos);
 
 ///Muestra un log.
 void mostrarLog(stLog logMostrado);

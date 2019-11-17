@@ -6,7 +6,7 @@
 #include "Listas.h"
 
 #define arUsuarios "arUsuarios.dat"
-#define arLogs "arLogs.dat"
+#define arLogs "arLogsPrueba.dat"
 
 //Menu de acceso al sistema donde te registras o logueas
 void menuLogin();
@@ -48,10 +48,12 @@ void menuLogin()
     showTituloBienvenido();
     printf("\n");
     printf("\n\t1- Crear Usuario");
-    printf("\n\t2- Loguearse\n\t");
+    printf("\n\t2- Loguearse");
+    printf("\n\t0- Salir");
 
+    fflush(stdin);
     opcion = getch();
-    printf("\n %d", opcion);
+   // printf("\n %d", opcion);
     while(opcionValida != 1)
     {
         switch(opcion) {
@@ -63,6 +65,7 @@ void menuLogin()
                 gotoxy(30,10);
                 //color(10);
                 printf("-.CREACION OK.-");
+                fflush(stdin);
                 getch();
                 gotoxy(0,0);
                 system("cls");
@@ -72,6 +75,11 @@ void menuLogin()
             case 50:
                 opcionValida = 1;
                 doLogin();
+                break;
+
+            case 48:
+                opcionValida = 1;
+                printf("\nGracias por usar Galaxy!\n");
                 break;
 
             default:
@@ -112,7 +120,7 @@ void doLogin()
             usua = getUsuarioByNombre(nombreUsua, arUsuarios);
             if(usua.idUsuario != -1)
             {
-                if(strcmp(strlwr(usua.pass), strlwr(pass)) == 0)
+                if(strcmpi(usua.pass,pass) == 0)
                 {
                     login = 1;
                 }
@@ -125,6 +133,7 @@ void doLogin()
             gotoxy(30,10);
             //color(4);
             printf("DATOS INCORRECTOS");
+            fflush(stdin);
             getch();
             gotoxy(0,0);
             system("cls");
@@ -135,6 +144,7 @@ void doLogin()
             gotoxy(30,10);
             //color(10);
             printf("-.LOGIN OK.-");
+            fflush(stdin);
             getch();
             gotoxy(0,0);
             system("cls");
@@ -191,17 +201,24 @@ void menuPrincipal(stUsuario usuaLogueado){
     if(usuaLogueado.tipo == 1){
         printf("\n\t5- Administrar sistema");
     }
-
+    printf("\n\t0- Salir de Galaxy");
+    fflush(stdin);
     opcion = getch();
     while(opcionValida != 1)
     {
         switch(opcion) {
 
+            case 48:
+                opcionValida = 1;
+                printf("\nGracias por usar Galaxy, lo esperamos nuevamente!");
+                break;
+
             case 49:
                 opcionValida = 1;
                 int score = 0;
                 runGalaxy(usuaLogueado);
-                printf("\n\t\tSu Score Fue %d", score);
+                printf("\n\t\tTu score fue %d", score);
+                fflush(stdin);
                 getch();
                 menuPrincipal(usuaLogueado);
                 break;
@@ -233,6 +250,7 @@ void menuPrincipal(stUsuario usuaLogueado){
                 gotoxy(30,10);
                 //color(4);
                 printf("OPCION INVALIDA");
+                fflush(stdin);
                 getch();
                 gotoxy(0,0);
                 system("cls");
@@ -251,6 +269,7 @@ void imprimirBienvenidaJuego(){
     Sleep(1000);
     printf("  Si perdes la UTN explota. \n \n \n \n");
     printf("\n \n \n \n \tMala suerte :)");
+    fflush(stdin);
     getch();
 }
 
@@ -338,8 +357,16 @@ int runGalaxy(stUsuario usuaLogueado){
 }
 
 void menuInstrucciones(stUsuario usuaLogueado){
-    printf("\nMENU INSTRUCCIONES");
-    enDesarrollo(usuaLogueado);
+    system("cls");
+    printf("\INSTRUCCIONES\n");
+    printf("\nMovimiento: WASD\n");
+    printf("\nDisparos: Barra espaciadora\n");
+    printf("\nSalir: ESC\n");
+    printf("\nBuena suerte soldado!");
+    printf("\nToque una tecla para volver al menu principal");
+    fflush(stdin);
+    getch();
+    menuPrincipal(usuaLogueado);
 }
 
 void menuGestionMiUsuario(stUsuario usuaLogueado){
@@ -352,6 +379,7 @@ void menuGestionMiUsuario(stUsuario usuaLogueado){
     printf("\n\t2- Eliminar mi usuario");
     printf("\n\t3- Volver al menu anterior ");
 
+    fflush(stdin);
     opcion = getch();
     while(opcionValida != 1)
     {
@@ -377,6 +405,7 @@ void menuGestionMiUsuario(stUsuario usuaLogueado){
                 gotoxy(30,10);
                 //color(4);
                 printf("OPCION INVALIDA");
+                fflush(stdin);
                 getch();
                 gotoxy(0,0);
                 system("cls");
@@ -399,7 +428,7 @@ void menuAdministracion(stUsuario usuaLogueado){
     printf("\n\t5- Volver al menu anterior");
 
     ///Alguna opcion mas para el admin ?
-
+    fflush(stdin);
     opcion = getch();
     while(opcionValida != 1)
     {
@@ -431,6 +460,7 @@ void menuAdministracion(stUsuario usuaLogueado){
                 gotoxy(30,10);
                 //color(4);
                 printf("OPCION INVALIDA");
+                fflush(stdin);
                 getch();
                 gotoxy(0,0);
                 system("cls");
@@ -447,6 +477,7 @@ void menuEstadisticas(stUsuario usuaLogueado){
 
 void enDesarrollo(stUsuario usuaLogueado){
     puts("\n\t\t\tFuncion En Desarrollo :( ");
+    fflush(stdin);
     getch();
     menuPrincipal(usuaLogueado);
 }

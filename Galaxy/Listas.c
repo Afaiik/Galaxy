@@ -234,6 +234,7 @@ int cargarAdl(stCelda adl[], int validos,stUsuario newuser){
         validos = agregarCeldaVacia(adl,validos,newuser);
         pos = validos-1;
     }
+    adl[pos].listaDeLog = logeos2listaEnAdl(adl[pos].listaDeLog);
     return validos;
 }
 
@@ -242,17 +243,18 @@ stNodoLog * cargaListaEnAdl(){
 
 int usuarios2arreglo(stCelda adl[],int validos, int dim){
     FILE * pArchi = fopen(arUsuarios,"rb");
-    int i = 0;
     if(pArchi){
         stUsuario newuser;
         while((fread(&newuser,sizeof(stUsuario),1,pArchi)>0) &&(validos<dim)){
-            ///validos = cargarArreglo(adl,validos,newuser);  FUNCION PERDIDA @TODO@
+            validos = cargarAdl(adl,validos,newuser);
         }
         fclose(pArchi);
     }
 
     return validos;
 }
+
+
 
 stNodoLog * logeos2listaEnAdl(stNodoLog * lista){
     FILE * pArchiLog = fopen(arLogs,"rb");
@@ -273,4 +275,15 @@ void mostrarLog(stLog logMostrado){
     printf("\nID USUARIO: %d",logMostrado.idUsuario);
     printf("\nID LOG: %d",logMostrado.idLog);
     printf("\nSCORE: %d",logMostrado.puntaje);
+}
+
+void mostrarAdl(stCelda adl[],int validos){
+    int i;
+    for(i=0;i<validos;i++){
+        mostrarUnUsuario(adl[i].user);
+        printf("\n\n************************\n\n");
+        printf("\nLISTA DE LOGS\n");
+        printf("\n\n************************\n\n");
+        mostrarListaLog(adl[i].listaDeLog);
+    }
 }
