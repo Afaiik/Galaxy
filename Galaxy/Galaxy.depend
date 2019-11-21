@@ -90,29 +90,30 @@
 	<ctype.h>
 	"usuarios.h"
 
-1573252724 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\gotoxy.c
+1574004490 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\gotoxy.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
 
-1573334668 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.c
+1574357036 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.c
 	<stdio.h>
 	<stdlib.h>
 	"Listas.h "
 
-1573338203 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\main.c
+1574359513 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\main.c
 	<stdio.h>
 	<stdlib.h>
 	<conio.h>
 	<windows.h>
+	"arbol.h"
 	"Listas.h"
 
-1573253617 c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.h
+1574357037 c:\users\usuario\documents\new everything\galaxy-master\galaxy\listas.h
 	"usuarios.h"
 
-1573337637 c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.h
+1574357037 c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.h
 
-1573339030 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.c
+1574357038 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\usuarios.c
 	<stdio.h>
 	<stdlib.h>
 	<ctype.h>
@@ -147,4 +148,11 @@
 	<ctype.h>
 	<string.h>
 	"usuarios.h"
+
+1574357036 c:\users\usuario\documents\new everything\galaxy-master\galaxy\arbol.h
+	<stdio.h>
+	<stdlib.h>
+
+1574357035 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\arbol.c
+	"arbol.h"
 

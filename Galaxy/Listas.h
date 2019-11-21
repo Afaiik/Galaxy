@@ -34,7 +34,13 @@ void mostrarListaCompleta(stNodoUsuario * nodo);
 stNodoUsuario * extraerNodo(stNodoUsuario ** lista);
 stNodoUsuario * agregarEnOrdenByNombre(stNodoUsuario * lista, stNodoUsuario * newnodo);
 
+///FUNCIONES DE LOG
+void guardarLogPartida(int puntaje, stUsuario usuaLogueado, char archivo[]);
+int getUltimoIdLog(char archivo[]);
+
+
 // FUNCIONES LISTA LOG.
+stNodoLog * inicListaLog();
 stNodoLog * crearNodoLog(stLog newlog);
 stNodoLog * agregarPrincipioLog(stNodoLog * lista, stNodoLog * newnodo);
 stNodoLog * agregarFinalLog(stNodoLog * lista, stNodoLog * newnodo);
@@ -49,10 +55,16 @@ int agregarCeldaVacia(stCelda adl[],int validos,stUsuario newuser);
 int cargarAdl(stCelda adl[], int validos,stUsuario newuser);
 stNodoLog * cargaListaEnAdl();
 int usuarios2arreglo(stCelda adl[],int validos, int dim);
-stNodoLog * logeos2listaEnAdl(stNodoLog * lista);
+stNodoLog * logeos2listaEnAdl(stNodoLog * lista, int userId);
 void mostrarAdl(stCelda adl[],int validos);
 
-///Muestra un log.
+stNodoLog * cargarListaEnAdl(stCelda adl[], int validos);
+
+///Mostrar logs.
 void mostrarLog(stLog logMostrado);
+void mostrarLogSimple(stLog log);
+void mostrarArchivoLogs(char nombreArchivo[]);
+void mostrarArchivoLogsByNombre(char nombreArchivo[], char nombreUsuario[]);
+void interfazMostrarLogsByNombre(stUsuario usuaLogueado);
 
 #endif // LISTAS_H_INCLUDED

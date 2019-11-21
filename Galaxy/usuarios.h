@@ -76,8 +76,10 @@ stUsuario getUsuarioByNombre(char nombreBuscado[], char arUsuarios[]);
 
 ///Baja Logica de usuario buscandolo por ID (Activo = 0)
 int eliminarUsuarioById(int usuaId);
-///Interfaz de eliminacion de usuario
+///Interfaz de eliminacion de usuario por nombre
 void eliminacionDeUsuario(stUsuario usuaLogueado);
+///Interfaz de eliminacion de usuario por ID 
+void eliminacionDeUsuarioById(stUsuario usuaLogueado);
 ///Eliminacion del propio usuario
 void eliminarMiUsuario(stUsuario usuaLogueado);
 

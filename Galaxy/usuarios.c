@@ -128,9 +128,9 @@ void mostrarUnUsuario(stUsuario newuser)
         printf("\n Password: %s", newuser.pass);
         //printf("\n Año: ",newuser.anioNacimiento);
         if(tolower(newuser.genero) == 'm'){
-            printf("\nGenero: Masculino");
+            printf("\n Genero: Masculino");
         }else{
-            printf("\nGenero: Femenino");
+            printf("\n Genero: Femenino");
         }
         printf("\n Pais: %s",newuser.pais);
         printf("\n____________________");
@@ -188,7 +188,6 @@ int getUltimoIdUsuario(char archivo[])
 {
     int mayor = 0;
     FILE * pArchi = fopen(archivo, "rb");
-    stUsuario usuaAux;
     if(pArchi){
         fseek(pArchi,0,SEEK_END);
         int bytes = ftell(pArchi);
@@ -385,6 +384,7 @@ int eliminarUsuarioById(int usuaId)
    return flag;
 }
 
+
 void eliminarMiUsuario(stUsuario usuaLogueado)
 {
     stUsuario usua;
@@ -433,22 +433,22 @@ void eliminarMiUsuario(stUsuario usuaLogueado)
 }
 
 
-void eliminacionDeUsuario(stUsuario usuaLogueado)
+void eliminacionDeUsuarioById(stUsuario usuaLogueado)
 {
-    stUsuario usua; //Funcion sin adaptar, @TODO@
+    stUsuario usua;
     int flag = -1;
     FILE *pArch;
     char opcion;
-    char nombreUsua[30];
+    int idUsua = -1;
     system("cls");
-    printf("\n\t\t<<<<<<<<<ELIMINACION DE USUARIO>>>>>>>>>");
-    printf("Introduzca el nombre del usuario que desea eliminar");
-    fflush(stdin);
-    gets(nombreUsua);
-    usua = getUsuarioByNombre(nombreUsua, arUsuarios);
+    printf("\n\t\t<<<<<<<<<ELIMINACION DE USUARIO>>>>>>>>>\n");
+    printf("\n\tIntroduzca el ID del usuario que desea eliminar...:");
+    scanf("%d", &idUsua);
+    usua = getUsuarioById(idUsua, arUsuarios);
 
     printf("\n\n\t\tESTA SEGURO DE ELIMINAR EL SIGUIENTE USUARIO ?? S/N \n");
     mostrarUnUsuario(usua);
+    puts("\n");
     fflush(stdin);
     scanf("%c", &opcion);
     if((opcion == 'S') || (opcion == 's'))
@@ -463,7 +463,10 @@ void eliminacionDeUsuario(stUsuario usuaLogueado)
             getch();
             gotoxy(0,0);
             system("cls");
-            menuLogin();
+            if(idUsua == usuaLogueado.idUsuario){
+                menuLogin();
+            }
+            menuAdministracion(usuaLogueado);
         }else
         {
 
@@ -474,11 +477,65 @@ void eliminacionDeUsuario(stUsuario usuaLogueado)
             getch();
             gotoxy(0,0);
             system("cls");
-            menuLogin();
+            menuAdministracion(usuaLogueado);
         }
     }else
     {
-//        menuGestionUsuarios(usuaLogueado);
+        menuAdministracion(usuaLogueado);
+    }
+
+}
+
+void eliminacionDeUsuario(stUsuario usuaLogueado)
+{
+    stUsuario usua;
+    int flag = -1;
+    FILE *pArch;
+    char opcion;
+    char nombreUsua[30];
+    system("cls");
+    printf("\n\t\t<<<<<<<<<ELIMINACION DE USUARIO>>>>>>>>>\n");
+    printf("\n\tIntroduzca el nombre del usuario que desea eliminar...:");
+    fflush(stdin);
+    gets(nombreUsua);
+    usua = getUsuarioByNombre(nombreUsua, arUsuarios);
+
+    printf("\n\n\t\tESTA SEGURO DE ELIMINAR EL SIGUIENTE USUARIO ?? S/N \n");
+    mostrarUnUsuario(usua);
+    puts("\n");
+    fflush(stdin);
+    scanf("%c", &opcion);
+    if((opcion == 'S') || (opcion == 's'))
+    {
+        flag = eliminarUsuarioById(usua.idUsuario);
+        if(flag == 1)
+        {
+            system("cls");
+            printf("\a");
+            gotoxy(15,5);
+            printf("\nEliminacion exitosa.");
+            getch();
+            gotoxy(0,0);
+            system("cls");
+            if(usua.idUsuario == usuaLogueado.idUsuario){
+                menuLogin();
+            }
+            menuAdministracion(usuaLogueado);
+        }else
+        {
+
+            system("cls");
+            printf("\a");
+            gotoxy(15,5);
+            printf("\nNo se pudo completar la operacion.");
+            getch();
+            gotoxy(0,0);
+            system("cls");
+            menuAdministracion(usuaLogueado);
+        }
+    }else
+    {
+        menuAdministracion(usuaLogueado);
     }
 
 }

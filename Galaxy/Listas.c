@@ -160,6 +160,33 @@ stNodoUsuario * agregarEnOrdenByNombre(stNodoUsuario * lista, stNodoUsuario * ne
     return lista;
 }
 
+///Guardar Log en Archivo
+void guardarLogPartida(int puntaje, stUsuario usuaLogueado, char archivo[]){
+    stLog newLog;
+    newLog.idLog = getUltimoIdLog(archivo) + 1;
+    newLog.idUsuario = usuaLogueado.idUsuario;
+    newLog.puntaje = puntaje;
+
+    FILE * pArchi = fopen("arLogs.dat", "a+b");
+    if(pArchi){
+        fwrite(&newLog, sizeof(stLog), 1, pArchi);
+        fclose(pArchi);
+    }
+}
+
+int getUltimoIdLog(char archivo[])
+{
+    int mayor = 0;
+    FILE * pArchi = fopen(archivo, "rb");
+    if(pArchi){
+        fseek(pArchi,0,SEEK_END);
+        int bytes = ftell(pArchi);
+        mayor = bytes / sizeof(stLog);
+    }
+
+    return mayor;
+}
+
 //Funciones de nodoLog
 
 stNodoLog * crearNodoLog(stLog newlog){
@@ -172,8 +199,8 @@ stNodoLog * crearNodoLog(stLog newlog){
 
 stNodoLog * agregarPrincipioLog(stNodoLog * lista, stNodoLog * newnodo){
 
-    lista->sig = newnodo;
-    newnodo = lista;
+    lista->sig = lista;
+    lista = newnodo;
 
     return lista;
 
@@ -219,34 +246,47 @@ int buscarPosUsuario(stCelda adl[], int validos, int idBuscado){ /// Retorna la 
     }
     return pos;
 }
+stNodoLog * inicListaLog(){
+    return NULL;
+}
 
 int agregarCeldaVacia(stCelda adl[],int validos,stUsuario newuser){ /// Agrega una celda al ADL. La inicializa en vacio para luego llenar los datos de la lista con los registros del archivo log.
     adl[validos].user = newuser;
-    adl[validos].listaDeLog = inicLista();
+    adl[validos].listaDeLog = inicListaLog();
+    
     validos++;
 
     return validos;
 }
 
-int cargarAdl(stCelda adl[], int validos,stUsuario newuser){
+int cargarAdl(stCelda adl[], int validos, stUsuario newuser){
     int pos = buscarPosUsuario(adl,validos,newuser.idUsuario);
     if(pos == -1){
         validos = agregarCeldaVacia(adl,validos,newuser);
         pos = validos-1;
     }
-    adl[pos].listaDeLog = logeos2listaEnAdl(adl[pos].listaDeLog);
     return validos;
 }
 
-stNodoLog * cargaListaEnAdl(){
+stNodoLog * cargarListaEnAdl(stCelda adl[], int validos){
+    int i;
+    printf("\n VALIDOS-> %d", validos);
+    for(i = 0; i < validos; i++){
+        printf("\n POSICION-> %d", i);
+        mostrarUnUsuario(adl[i].user);
+        adl[i].listaDeLog = logeos2listaEnAdl(adl[i].listaDeLog, adl[i].user.idUsuario);
+    }
+    
 }
 
 int usuarios2arreglo(stCelda adl[],int validos, int dim){
-    FILE * pArchi = fopen(arUsuarios,"rb");
+    FILE * pArchi = fopen(arUsuarios,"r+b");
+    stUsuario newuser;
     if(pArchi){
-        stUsuario newuser;
-        while((fread(&newuser,sizeof(stUsuario),1,pArchi)>0) &&(validos<dim)){
-            validos = cargarAdl(adl,validos,newuser);
+        while( (fread(&newuser, sizeof(stUsuario), 1, pArchi) > 0) && (validos < dim)){
+            if(newuser.activo == 1){
+                validos = cargarAdl(adl,validos,newuser);
+            }
         }
         fclose(pArchi);
     }
@@ -255,18 +295,20 @@ int usuarios2arreglo(stCelda adl[],int validos, int dim){
 }
 
 
-
-stNodoLog * logeos2listaEnAdl(stNodoLog * lista){
-    FILE * pArchiLog = fopen(arLogs,"rb");
+stNodoLog * logeos2listaEnAdl(stNodoLog * lista, int userId){
+    FILE * pArchiLog = fopen("arLogs.dat","rb");
     if(pArchiLog){
         stLog newlog;
         stNodoLog * newnodo;
-        while(fread(&newlog,sizeof(stLog),1,pArchiLog)>0){
-            newnodo = crearNodoLog(newlog);
-            lista = agregarPrincipioLog(lista,newnodo);
+        while(fread(&newlog, sizeof(stLog), 1, pArchiLog) > 0){
+            if(newlog.idUsuario == userId){
+                newnodo = crearNodoLog(newlog);
+                lista = agregarFinalLog(lista,newnodo);
+            }
         }
         fclose(pArchiLog);
     }
+
     return lista;
 }
 
@@ -286,4 +328,68 @@ void mostrarAdl(stCelda adl[],int validos){
         printf("\n\n************************\n\n");
         mostrarListaLog(adl[i].listaDeLog);
     }
+}
+void mostrarLogSimple(stLog log){
+    printf("\nLog ID..: %d   UserId..: %d   Score..: %d", log.idLog, log.idUsuario, log.puntaje);
+}
+
+
+void mostrarArchivoLogs(char nombreArchivo[]){
+    stLog aux;
+    FILE * pArchi = fopen(nombreArchivo, "rb");
+    if(pArchi){
+        while(fread(&aux, sizeof(stLog), 1, pArchi) > 0){
+            mostrarLogSimple(aux);
+        }
+        fclose(pArchi);
+    }
+}
+
+
+void mostrarArchivoLogsByNombre(char nombreArchivo[], char nombreUsuario[]){
+    stUsuario user = getUsuarioByNombre(nombreUsuario, arUsuarios);
+    stLog aux;
+    FILE * pArchi = fopen(nombreArchivo, "rb");
+    if(pArchi){
+        while(fread(&aux, sizeof(stLog), 1, pArchi) > 0){
+            if(aux.idUsuario == user.idUsuario){
+                mostrarLogSimple(aux);
+            }
+        }
+        fclose(pArchi);
+    }
+}
+
+void interfazMostrarLogsByNombre(stUsuario usuaLogueado){
+
+    stUsuario usua;
+    int flag = -1;
+    FILE *pArch;
+    char opcion;
+    char nombreUsua[30];
+    system("cls");
+    printf("\n\t\t<<<<<<<<<MOSTRAR LOGS POR NOMBRE DE USUARIO>>>>>>>>>\n");
+    printf("\n\tIntroduzca el nombre del usuario del que desea ver puntajes...: ");
+    fflush(stdin);
+    gets(nombreUsua);
+    usua = getUsuarioByNombre(nombreUsua, arUsuarios);
+    
+    if(usua.idUsuario != -1){
+        printf("\nPuntajes de %s\n", usua.nombreUsuario);
+        puts("\n");
+        mostrarArchivoLogsByNombreEnArbol(arLogs, usua.nombreUsuario);
+        getch();
+        menuAdministracion(usuaLogueado);
+    }else
+    {
+        system("cls");
+        printf("\a");
+        gotoxy(15,5);
+        printf("\nNo existe ningun usuario con ese nombre.");
+        getch();
+        gotoxy(0,0);
+        system("cls");
+        menuAdministracion(usuaLogueado);
+    }
+    
 }
