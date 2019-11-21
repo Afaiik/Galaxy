@@ -603,8 +603,8 @@ void menuInstrucciones(stUsuario usuaLogueado){
     system("cls");
     showTituloBienvenido();
     printf("\n\tINSTRUCCIONES\n");
-    printf("\n\tMovimiento: WASD\n");
-    printf("\n\tDisparos: Barra espaciadora\n");
+    printf("\n\tMovimiento: A D\n");
+    printf("\n\tDisparos: M\n");
     printf("\n\tSalir: ESC\n");
     printf("\n\tBuena suerte soldado!");
     printf("\nPresione una tecla para volver al menu principal");
@@ -725,7 +725,6 @@ void menuEstadisticas(stUsuario usuaLogueado){
     printf("\n");
     printf("\n\t1- Mostrar ranking global");
     printf("\n\t2- Mostrar mis score");
-    printf("\n\t3- Buscar los score de un usuario");
     printf("\n\t0- Volver al menu anterior");
 
     fflush(stdin);
@@ -736,7 +735,12 @@ void menuEstadisticas(stUsuario usuaLogueado){
 
             case 49:
                 opcionValida = 1;
-                ///ARBOL
+                nodoArbol * arbolRanks = inicArbol();
+                arbolRanks = cargarPuntajesEnRanking(arbolRanks,adlUsers,validos);
+                printf("\nRANKING (MENOR A MAYOR)\n");
+                inorder(arbolRanks);
+                getch();
+                menuPrincipal(usuaLogueado);
                 break;
             case 50:
                 opcionValida = 1;
@@ -748,10 +752,6 @@ void menuEstadisticas(stUsuario usuaLogueado){
                 }
                 getch();
                 menuPrincipal(usuaLogueado);
-                break;
-            case 51:
-                opcionValida = 1;
-
                 break;
             case 48:
                 opcionValida = 1;

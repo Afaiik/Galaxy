@@ -57,7 +57,6 @@ void cargaListaEnAdl();
 int usuarios2arreglo(stCelda adl[],int validos, int dim);
 stNodoLog * logeos2listaEnAdl(stNodoLog * lista, int userId);
 void mostrarAdl(stCelda adl[],int validos);
-
 stNodoLog * cargarListaEnAdl(stCelda adl[], int validos);
 
 ///Mostrar logs.
@@ -66,5 +65,8 @@ void mostrarLogSimple(stLog log);
 void mostrarArchivoLogs(char nombreArchivo[]);
 void mostrarArchivoLogsByNombre(char nombreArchivo[], char nombreUsuario[]);
 void interfazMostrarLogsByNombre(stUsuario usuaLogueado);
+
+///Busca valor máximo de un usuario.
+int buscarMayorScore(stNodoLog * lista);
 
 #endif // LISTAS_H_INCLUDED

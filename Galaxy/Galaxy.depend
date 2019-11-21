@@ -125,12 +125,13 @@
 	<stdlib.h>
 	<windows.h>
 
-1574363304 source:d:\tomas\downloads\galaxy-master\galaxy\listas.c
+1574367650 source:d:\tomas\downloads\galaxy-master\galaxy\listas.c
 	<stdio.h>
 	<stdlib.h>
 	"Listas.h "
+	"arbol.h"
 
-1574365027 source:d:\tomas\downloads\galaxy-master\galaxy\main.c
+1574367908 source:d:\tomas\downloads\galaxy-master\galaxy\main.c
 	<stdio.h>
 	<stdlib.h>
 	<conio.h>
@@ -138,7 +139,7 @@
 	"arbol.h"
 	"Listas.h"
 
-1574361844 d:\tomas\downloads\galaxy-master\galaxy\listas.h
+1574366659 d:\tomas\downloads\galaxy-master\galaxy\listas.h
 	"usuarios.h"
 
 1574360004 d:\tomas\downloads\galaxy-master\galaxy\usuarios.h
@@ -157,10 +158,13 @@
 1574357035 source:c:\users\usuario\documents\new everything\galaxy-master\galaxy\arbol.c
 	"arbol.h"
 
-1574360004 source:d:\tomas\downloads\galaxy-master\galaxy\arbol.c
+1574368025 source:d:\tomas\downloads\galaxy-master\galaxy\arbol.c
 	"arbol.h"
+	"Listas.h"
 
-1574360004 d:\tomas\downloads\galaxy-master\galaxy\arbol.h
+1574367908 d:\tomas\downloads\galaxy-master\galaxy\arbol.h
 	<stdio.h>
 	<stdlib.h>
+	"arbol.h"
+	"Listas.h"
 

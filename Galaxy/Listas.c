@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Listas.h "
+#include "arbol.h"
 
 #define arUsuarios "arUsuarios.dat"
 #define arLogs "arLogs.dat"
@@ -385,3 +386,16 @@ void interfazMostrarLogsByNombre(stUsuario usuaLogueado){
     }
 
 }
+int buscarMayorScore(stNodoLog * lista){
+    int scoreMax = 0;
+    stNodoLog * seg = lista;
+    while(seg){
+        if(seg->dato.puntaje > scoreMax){
+            scoreMax = seg->dato.puntaje;
+        }
+        seg = seg->sig;
+    }
+
+    return scoreMax;
+}
+

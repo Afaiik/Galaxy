@@ -1,5 +1,5 @@
 #include "arbol.h"
-
+#include "Listas.h"
 
 nodoArbol * inicArbol()
 {
@@ -88,7 +88,7 @@ void mostrarLogEnArbol(char nombreArchivo[]){
 }
 
 void mostrarArchivoLogsByNombreEnArbol(char nombreArchivo[], char nombreUsuario[]){
-    stUsuario user = getUsuarioByNombre(nombreUsuario, arUsuarios);
+    stUsuario user = getUsuarioByNombre(nombreUsuario, "arUsuarios.dat");
     stLog aux;
     nodoArbol * arbol = inicArbol();
     nodoArbol * nuevo;
@@ -104,13 +104,16 @@ void mostrarArchivoLogsByNombreEnArbol(char nombreArchivo[], char nombreUsuario[
     inorder(arbol);
 }
 
-nodoArbol * cargarArbolRanking(nodoArbol * arbol, int dato){
-    if(arbol){
-        arbol = insertar(arbol,dato);
-    }else{
-        if(arbol);
+nodoArbol * cargarPuntajesEnRanking(nodoArbol * arbol, stCelda adl[],int validos){
+    int i;
+    int scoreMax;
+    int cantDeEspaciosEnRank = 0;
+    for(i=0;i<validos;i++){
+        scoreMax = buscarMayorScore(adl[i].listaDeLog);
+        if(cantDeEspaciosEnRank<10){
+            arbol = insertar(arbol,scoreMax);
+            cantDeEspaciosEnRank++;
+        }
     }
+    return arbol;
 }
-
-
-El ranking consta de 10 puntajes, si el ultimo puntaje es mayor que el ultimo, lo cambia.
