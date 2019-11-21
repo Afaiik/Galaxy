@@ -189,6 +189,10 @@ int getUltimoIdLog(char archivo[])
 
 //Funciones de nodoLog
 
+stNodoLog * inicListaLog(){
+    return NULL;
+}
+
 stNodoLog * crearNodoLog(stLog newlog){
     stNodoLog * newnodo = (stNodoLog*)malloc(sizeof(stNodoLog));
     newnodo->dato = newlog;
@@ -199,7 +203,7 @@ stNodoLog * crearNodoLog(stLog newlog){
 
 stNodoLog * agregarPrincipioLog(stNodoLog * lista, stNodoLog * newnodo){
 
-    lista->sig = lista;
+    newnodo->sig = lista;
     lista = newnodo;
 
     return lista;
@@ -228,7 +232,7 @@ void mostrarNodoLog(stNodoLog * nodo){
 void mostrarListaLog(stNodoLog * lista){ /// RECURSIVA.
 
     if(lista){
-        mostrarNodoLog(lista);
+        mostrarLogSimple(lista->dato);
         mostrarListaLog(lista->sig);
     }
 }
@@ -246,14 +250,11 @@ int buscarPosUsuario(stCelda adl[], int validos, int idBuscado){ /// Retorna la 
     }
     return pos;
 }
-stNodoLog * inicListaLog(){
-    return NULL;
-}
 
 int agregarCeldaVacia(stCelda adl[],int validos,stUsuario newuser){ /// Agrega una celda al ADL. La inicializa en vacio para luego llenar los datos de la lista con los registros del archivo log.
     adl[validos].user = newuser;
     adl[validos].listaDeLog = inicListaLog();
-    
+
     validos++;
 
     return validos;
@@ -265,18 +266,9 @@ int cargarAdl(stCelda adl[], int validos, stUsuario newuser){
         validos = agregarCeldaVacia(adl,validos,newuser);
         pos = validos-1;
     }
-    return validos;
-}
+    adl[pos].listaDeLog = logeos2listaEnAdl(adl[pos].listaDeLog,newuser.idUsuario);
 
-stNodoLog * cargarListaEnAdl(stCelda adl[], int validos){
-    int i;
-    printf("\n VALIDOS-> %d", validos);
-    for(i = 0; i < validos; i++){
-        printf("\n POSICION-> %d", i);
-        mostrarUnUsuario(adl[i].user);
-        adl[i].listaDeLog = logeos2listaEnAdl(adl[i].listaDeLog, adl[i].user.idUsuario);
-    }
-    
+    return validos;
 }
 
 int usuarios2arreglo(stCelda adl[],int validos, int dim){
@@ -303,12 +295,11 @@ stNodoLog * logeos2listaEnAdl(stNodoLog * lista, int userId){
         while(fread(&newlog, sizeof(stLog), 1, pArchiLog) > 0){
             if(newlog.idUsuario == userId){
                 newnodo = crearNodoLog(newlog);
-                lista = agregarFinalLog(lista,newnodo);
+                lista = agregarPrincipioLog(lista,newnodo);
             }
         }
         fclose(pArchiLog);
     }
-
     return lista;
 }
 
@@ -323,10 +314,11 @@ void mostrarAdl(stCelda adl[],int validos){
     int i;
     for(i=0;i<validos;i++){
         mostrarUnUsuario(adl[i].user);
-        printf("\n\n************************\n\n");
-        printf("\nLISTA DE LOGS\n");
-        printf("\n\n************************\n\n");
+        printf("\n************************\n");
+        printf("LISTA DE LOGS");
+        printf("\n************************\n");
         mostrarListaLog(adl[i].listaDeLog);
+        printf("\n_______________________________________________\n");
     }
 }
 void mostrarLogSimple(stLog log){
@@ -373,7 +365,7 @@ void interfazMostrarLogsByNombre(stUsuario usuaLogueado){
     fflush(stdin);
     gets(nombreUsua);
     usua = getUsuarioByNombre(nombreUsua, arUsuarios);
-    
+
     if(usua.idUsuario != -1){
         printf("\nPuntajes de %s\n", usua.nombreUsuario);
         puts("\n");
@@ -391,5 +383,5 @@ void interfazMostrarLogsByNombre(stUsuario usuaLogueado){
         system("cls");
         menuAdministracion(usuaLogueado);
     }
-    
+
 }

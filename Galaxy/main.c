@@ -8,32 +8,26 @@
 #define arUsuarios "arUsuarios.dat"
 #define arLogs "arLogs.dat"
 
-//Menu de acceso al sistema donde te registras o logueas
 void menuLogin();
 void showTituloBienvenido();
 void doLogin();
+void flash();
+void menuPrincipal(stUsuario usuaLogueado);
+void menuInstrucciones(stUsuario usuaLogueado);
+void menuGestionMiUsuario(stUsuario usuaLogueado);
+void menuEstadisticas(stUsuario usuaLogueado);
+void menuAdministracion(stUsuario usuaLogueado);
+void jugar();
+int runGalaxy();
+void printMarcianito();
+void imprimirBienvenidaJuego();
 
 int main()
 {
     system("color f0");
     srand(time(NULL));
     hidecursor(0);
-    //mostrarArchivoLogs(arLogs);
-    //getch();
     menuLogin();
-    
-    //mostrarArchivoLogsByNombreEnArbol(arLogs, "sergio");
-    
-    //mostrarLogEnArbol(arLogs);
-    /// Me daba paja loguearme asique estaba logueando asi para entrar al menu ppal o donde este laburando de una
-    //stUsuario logged = getUsuarioByNombre("efra", arUsuarios);
-    //menuPrincipal(logged);
-    //jugarYguardarLog(logged);
-    //interfazMostrarLogsByNombre(logged);
-    /// TOMI ACA TE DEJO LO DE GENERAR LOGS RANDOM SI TE SIRVE
-    /// HICE UNA FUNCION PARA MOSTRAR LOGS EN LA MISMA LINEA, SI TE PARECE MEJOR CAMBIALA EN LISTAS.C Y ELIMINA ESTA FUNCION
-    /*generarLogsPrueba(500);
-    mostrarArchivoLogs("arLogsPrueba.dat");*/
 
     return 0;
 }
@@ -62,7 +56,6 @@ void menuLogin()
 
     fflush(stdin);
     opcion = getch();
-   // printf("\n %d", opcion);
     while(opcionValida != 1)
     {
         switch(opcion) {
@@ -164,7 +157,7 @@ void doLogin()
 
 void flash(){
     int cont = 0;
-    while(cont != 50){
+    while(cont != 30){
         if(cont % 2 == 0){
             system("color 0f");
         }else{
@@ -191,7 +184,7 @@ void showTituloPrincipal(){
 
 
 void printMarcianito(){
-                                                                      
+
 printf("              .,,,,,.                            .,,,,,.              \n");
 printf("              ;xkkkd,                            ;xkkkx;              \n");
 printf("              ;xkkkx;                            ;xkkkx;              \n");
@@ -248,7 +241,7 @@ void menuPrincipal(stUsuario usuaLogueado){
 
             case 49:
                 opcionValida = 1;
-                jugarYguardarLog(usuaLogueado);
+                jugar(usuaLogueado);
                 break;
 
             case 50:
@@ -291,7 +284,7 @@ void menuPrincipal(stUsuario usuaLogueado){
 
 
 void imprimirBienvenidaJuego(){
-    
+
     system("cls");
     system("color 0f");
     printf("\n \n     Bienvenido ! \n \n \n \n");
@@ -405,7 +398,7 @@ int runGalaxy(){
         ///Oootro ciclo para recorrer todo el mapa
         for (x = 0; x < largo; x ++) {
             for (y = 0; y < alto; y ++) {
-                
+
                 if ((i % 5) == 0 && (mapa[y][x] == enemigoFuerte
                 ///Si encuentra un enemigo y es una posicion valida
                 | mapa[y][x] == enemigo) && (rand() % 15) > 13
@@ -453,7 +446,7 @@ int runGalaxy(){
                 else if (mapa[y][x] == explosion) {
                     mapa[y][x] = ' ';
                 }
-                ///Si chocas un laser enemigo perdiste u.u 
+                ///Si chocas un laser enemigo perdiste u.u
                 else if ((i+1) % 2 == 0 && mapa[y][x] == enemigoLaser && mapa[y+1][x] == nave) {
                     mapa[y+1][x] = explosion;
                     mapa[y][x] = ' ';
@@ -527,7 +520,7 @@ int runGalaxy(){
         }
 
 
-        ///KeyboardHit by Conio 
+        ///KeyboardHit by Conio
         ///movimiento WASD, disparo P
         if(kbhit()){
             keyPress = getch();
@@ -582,24 +575,22 @@ int runGalaxy(){
     system("cls");
 
     if (victoria == 0) {
-        printf("\n \n \n \n \n \n     FELICITACIONES \n \n \n \n \n");
+        printf("\n \n \n \n \n \n\t\t\tFELICITACIONES");
+        Sleep(500);
+        printf("\n \n\n \n \n \n \n \t\tPUNTAJE: %d", puntaje);
+        int bonus = puntaje * 5 - i;
+        printf("\n \n\n \t\tBONUS: %d", bonus);
+        printf("\n \n\n \t\tPUNTAJE TOTAL: %d", puntaje + bonus);
+
         Sleep(1000);
-        printf("\n \n               PUNTAJE: %d", puntaje);
-        Sleep(1000);
-        int bonus = enemigosActuales * 20 - i;
-        printf("\n \n               BONUS: %d", bonus);
-        Sleep(1000);
-        printf("\n \n               PUNTAJE TOTAL: %d", puntaje + bonus);
-        Sleep(1000);
-        printf("\n\tHas salvado la UTN");
-        Sleep(1000);
+        printf("\n\n\t\tHas salvado la UTN <3");
         getch();
     }
     else {
-        printf("\n \n \n \n \n \n               PERDISTE :(");
-        printf("\n \n \n \n \n \n               La UTN ha Explotado");
+        printf("\n \n \n \n \n \n\t\t\tPERDISTE :(");
+        printf("\n \n \n \n \n \n \t\t\tLa UTN ha Explotado");
         Sleep(1000);
-        printf("\n \n               Puntaje Final: %d", puntaje);
+        printf("\n \n\t\t\tPuntaje Final: %d", puntaje);
         getch();
         Sleep(500);
     }
@@ -610,6 +601,7 @@ int runGalaxy(){
 
 void menuInstrucciones(stUsuario usuaLogueado){
     system("cls");
+    showTituloBienvenido();
     printf("\n\tINSTRUCCIONES\n");
     printf("\n\tMovimiento: WASD\n");
     printf("\n\tDisparos: Barra espaciadora\n");
@@ -719,98 +711,74 @@ void menuAdministracion(stUsuario usuaLogueado){
     }
 }
 
+
 void menuEstadisticas(stUsuario usuaLogueado){
-    printf("\n\t\t\tMENU ESTADISTICAS");
-    enDesarrollo(usuaLogueado);
-}
-
-void enDesarrollo(stUsuario usuaLogueado){
-    puts("\n\t\t\tFuncion En Desarrollo :( ");
-    fflush(stdin);
-    getch();
-    menuPrincipal(usuaLogueado);
-}
-
-
-void generarLogsPrueba(int cantidad){
-    stLog newLog;
-    newLog.idLog = 0;
-
-    ///W+B para que cuando generas un nuevo archivo de prueba se elimine lo que tenai
-    FILE * pArchi = fopen("arLogsPrueba.dat", "w+b");
-    if(pArchi){
-        while(newLog.idLog < cantidad){
-            fwrite(&newLog, sizeof(stLog), 1, pArchi);
-            newLog.idLog++;
-            newLog.idUsuario = rand() % 10 + 1; ///desde 1 hasta 10 inclusive
-            newLog.puntaje = rand() % 1000; ///idem
-            printf("\nGenerando Log numero: %d", newLog.idLog);
-        }
-        fclose(pArchi);
-    }
-}
-
-
-
-
-///Al momento de comenzar el juego levanta todos los usuarios desde el archivo a un ADL
-
-void jugarYguardarLog(stUsuario usuaLogueado){
-    /*
-    NO PUDE CON ESTO LA REPUTAMADRE 
-    int tamanioArreglo = getUltimoIdUsuario(arUsuarios); ///Esta función cuenta la cantidad de usuarios del archivo mediante Ftell / sizeof(usuario)
-    printf("\nTamanio %d", tamanioArreglo);
-    
-    stCelda adlUsers[tamanioArreglo];
+    int opcion;
+    int opcionValida = 0;
+    int dim = getUltimoIdUsuario(arUsuarios); ///Esta función cuenta la cantidad de usuarios del archivo mediante Ftell / sizeof(usuario)
+    stCelda adlUsers[dim];
     int validos = 0;
-    int dim = tamanioArreglo;
-
     validos = usuarios2arreglo(adlUsers, validos, dim);
 
-
-    cargarListaEnAdl(adlUsers, validos);
-    mostrarAdl(adlUsers, validos);
-    */
-    int puntajePartida = runGalaxy();
     system("cls");
-    printf("\n\npuntaje %d", puntajePartida);
-    guardarLogPartida(puntajePartida, usuaLogueado, "arLogs.dat");
+    showTituloPrincipal();
+    printf("\n");
+    printf("\n\t1- Mostrar ranking global");
+    printf("\n\t2- Mostrar mis score");
+    printf("\n\t3- Buscar los score de un usuario");
+    printf("\n\t0- Volver al menu anterior");
 
-    mostrarArchivoLogs("arLogs.dat");
+    fflush(stdin);
+    opcion = getch();
+    while(opcionValida != 1)
+    {
+        switch(opcion) {
+
+            case 49:
+                opcionValida = 1;
+                ///ARBOL
+                break;
+            case 50:
+                opcionValida = 1;
+                int pos = buscarPosUsuario(adlUsers,validos,usuaLogueado.idUsuario);
+                if(adlUsers[pos].listaDeLog){
+                    mostrarListaLog(adlUsers[pos].listaDeLog);
+                }else{
+                    printf("\nNo tenes ningun score:(\n");
+                }
+                getch();
+                menuPrincipal(usuaLogueado);
+                break;
+            case 51:
+                opcionValida = 1;
+
+                break;
+            case 48:
+                opcionValida = 1;
+                menuPrincipal(usuaLogueado);
+                break;
+
+            default:
+                system("cls");
+                gotoxy(30,10);
+                //color(4);
+                printf("OPCION INVALIDA");
+                fflush(stdin);
+                getch();
+                gotoxy(0,0);
+                system("cls");
+                menuPrincipal(usuaLogueado);
+                break;
+        }
+    }
+}
+
+
+void jugar(stUsuario usuaLogueado){
+    int scorePartida = runGalaxy();
+    guardarLogPartida(scorePartida,usuaLogueado,arLogs);
+    fflush(stdin);
+    printf("\nPresione una tecla para volver al menu principal\n");
     getch();
     menuPrincipal(usuaLogueado);
-}
-
-
-///Para el menu estadisticas usar ARBOL
-void mostrarLogEnArbol(char nombreArchivo[]){
-
-    nodoArbol * arbol = inicArbol();
-    stLog aux;
-    nodoArbol * nuevo;
-    FILE * pArchi = fopen(nombreArchivo, "rb");
-    if(pArchi){
-        while(fread(&aux, sizeof(stLog), 1, pArchi) > 0){
-            arbol = insertar(arbol, aux.puntaje);
-        }
-        fclose(pArchi);
-    }
-    inorder(arbol);
-}
-
-void mostrarArchivoLogsByNombreEnArbol(char nombreArchivo[], char nombreUsuario[]){
-    stUsuario user = getUsuarioByNombre(nombreUsuario, arUsuarios);
-    stLog aux;
-    nodoArbol * arbol = inicArbol();
-    nodoArbol * nuevo;
-    FILE * pArchi = fopen(nombreArchivo, "rb");
-    if(pArchi){
-        while(fread(&aux, sizeof(stLog), 1, pArchi) > 0){
-            if(aux.idUsuario == user.idUsuario){
-                arbol = insertar(arbol, aux.puntaje);
-            }
-        }
-        fclose(pArchi);
-    }
-    inorder(arbol);
 }

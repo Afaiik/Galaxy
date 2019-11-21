@@ -53,7 +53,7 @@ void mostrarListaLog(stNodoLog * lista);
 int buscarPosUsuario(stCelda adl[], int validos, int idBuscado);
 int agregarCeldaVacia(stCelda adl[],int validos,stUsuario newuser);
 int cargarAdl(stCelda adl[], int validos,stUsuario newuser);
-stNodoLog * cargaListaEnAdl();
+void cargaListaEnAdl();
 int usuarios2arreglo(stCelda adl[],int validos, int dim);
 stNodoLog * logeos2listaEnAdl(stNodoLog * lista, int userId);
 void mostrarAdl(stCelda adl[],int validos);
